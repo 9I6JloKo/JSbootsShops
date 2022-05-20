@@ -5,6 +5,7 @@
  */
 package entities;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,8 +26,17 @@ public class Client implements Serializable{
     private String login;
     private String password;
     private String level;
+    private String salt;
     public String getLevel() {
         return level;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public void setLevel(String level) {
@@ -88,6 +98,64 @@ public class Client implements Serializable{
     public void setLogin(String login) {
         this.login = login;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.clientName);
+        hash = 37 * hash + Objects.hashCode(this.clientSurname);
+        hash = 37 * hash + Objects.hashCode(this.clientNumber);
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.clientMoney) ^ (Double.doubleToLongBits(this.clientMoney) >>> 32));
+        hash = 37 * hash + Objects.hashCode(this.login);
+        hash = 37 * hash + Objects.hashCode(this.password);
+        hash = 37 * hash + Objects.hashCode(this.level);
+        hash = 37 * hash + Objects.hashCode(this.salt);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Client other = (Client) obj;
+        if (Double.doubleToLongBits(this.clientMoney) != Double.doubleToLongBits(other.clientMoney)) {
+            return false;
+        }
+        if (!Objects.equals(this.clientName, other.clientName)) {
+            return false;
+        }
+        if (!Objects.equals(this.clientSurname, other.clientSurname)) {
+            return false;
+        }
+        if (!Objects.equals(this.clientNumber, other.clientNumber)) {
+            return false;
+        }
+        if (!Objects.equals(this.login, other.login)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.level, other.level)) {
+            return false;
+        }
+        if (!Objects.equals(this.salt, other.salt)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+    
     @Override
     public String toString() {
         return "Client{" + "id=" + id + ", clientName=" + clientName + ", clientSurname=" + clientSurname + ", clientNumber=" + clientNumber + ", clientMoney=" + clientMoney + ", login=" + login + ", password=" + password + ", level=" + level + '}';

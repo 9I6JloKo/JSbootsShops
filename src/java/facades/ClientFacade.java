@@ -28,5 +28,13 @@ public class ClientFacade extends AbstractFacade<Client> {
     public ClientFacade() {
         super(Client.class);
     }
-    
+    public Client findByLogin(String login) {
+        try {
+            return (Client) em.createQuery("SELECT c FROM Client c WHERE c.login=:login")
+                    .setParameter("login", login)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

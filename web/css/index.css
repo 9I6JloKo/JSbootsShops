@@ -1,0 +1,12 @@
+#login-button {
+    color:lightgrey;
+}
+#login-button:hover {
+    color:white;
+}
+#login_submit:hover {
+    background-color: white;
+    color: black;
+    outline: 1px solid black;
+    outline-offset: -2px;
+}
