@@ -1,7 +1,7 @@
-#login-button {
+#login_button {
     color:lightgrey;
 }
-#login-button:hover {
+#login_button:hover {
     color:white;
 }
 #login_submit:hover {
@@ -9,4 +9,38 @@
     color: black;
     outline: 1px solid black;
     outline-offset: -2px;
+}
+a {
+  display: block;
+  position: relative;
+  padding: 0.2em 0;
+}
+
+/* Fade in */
+a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.1em;
+  background-color: hotpink;
+  opacity: 0;
+  transition: opacity 300ms, transform 300ms;
+}
+
+.nav-link:hover::after,
+.nav-link:focus::after {
+  opacity: 1;
+  transform: translate3d(0, 0.2em, 0);
+}
+.nav-link::after {
+  opacity: 1;
+  transform: scale(0);
+  transform-origin: center;
+}
+
+.nav-link:hover::after,
+.nav-link:focus::after{
+  transform: scale(1);
 }

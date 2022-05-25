@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JPTV20/BootsShopJS/web/js/JsonConverter.js</file>
-            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JPTV20/BootsShopJS/src/java/jsontools/ClientJsonBuilder.java</file>
-            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JPTV20/BootsShopJS/web/js/LoginModule.js</file>
-            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JPTV20/BootsShopJS/web/js/Main.js</file>
-            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JPTV20/BootsShopJS/src/java/servlets/LoginServlet.java</file>
-            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JPTV20/BootsShopJS/src/java/entities/Client.java</file>
-            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JPTV20/BootsShopJS/web/index.html</file>
-            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JPTV20/BootsShopJS/web/css/index.css</file>
-            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JPTV20/BootsShopJS/src/java/facades/ClientFacade.java</file>
+            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JSbootsShops/web/index.html</file>
+            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JSbootsShops/web/js/ViewModule.js</file>
+            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JSbootsShops/src/java/servlets/LoginServlet.java</file>
+            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JSbootsShops/web/js/Main.js</file>
+            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JSbootsShops/src/java/facades/ClientFacade.java</file>
+            <file>file:/C:/Users/pupil/Documents/NetBeansProjects/JSbootsShops/web/js/LoginModule.js</file>
         </group>
     </open-files>
 </project-private>

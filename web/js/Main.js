@@ -1,49 +1,60 @@
-import {loginModule} from "./LoginModule.js";
-const login_button = document.getElementById("login-button");
-login_button.addEventListener("click", e => {
+import {viewModule} from "./ViewModule.js";
+document.getElementById('navbar').classList.add('d-none');
+const loginButton = document.getElementById("login_button");
+loginButton.addEventListener("click", e => {
     e.preventDefault();
-    change_item(login_button);
-    loginModule.showLoginForm();
+    selectItemMenu(loginButton);
+    if(loginButton.value == 'login'){
+        viewModule.showLoginForm();   
+    }
+//    else{
+//        const navigation = document.getElementsByClassName('nav-link')
+//        navigation.pop();
+//        for(let i = 0; i < navigation.length; i++){
+//            if(!navigation[i].contains('d-none')){
+//                navigation[i].add('d-none');
+//            }
+//        }
+//    }
 });
 const clients = document.getElementById("clients");
 clients.addEventListener("click", e => {
     e.preventDefault();
-    change_item(clients);
+    selectItemMenu(clients);
 });
 const shoes = document.getElementById("shoes");
 shoes.addEventListener("click", e => {
     e.preventDefault();
-    change_item(shoes);
+    selectItemMenu(shoes);
 });
 const shopping = document.getElementById("shopping");
 shopping.addEventListener("click", e => {
     e.preventDefault();
-    change_item(shopping);
+    selectItemMenu(shopping);
 });
-const clients_change = document.getElementById("clients-change");
-clients_change.addEventListener("click", e => {
+const clientsChange = document.getElementById("clients_change");
+clientsChange.addEventListener("click", e => {
     e.preventDefault();
-    change_item(clients_change);
+    selectItemMenu(clientsChange);
 });
-const shoes_change = document.getElementById("shoes-change");
-shoes_change.addEventListener("click", e => {
+const shoesChange = document.getElementById("shoes_change");
+shoesChange.addEventListener("click", e => {
     e.preventDefault();
-    change_item(shoes_change);
+    selectItemMenu(shoesChange);
 });
 const dropdown = document.getElementById("dropdown");
 dropdown.addEventListener("click", e => {
     e.preventDefault();
-    change_item(dropdown);
+    selectItemMenu(dropdown);
 });
-function change_item(element_to_change){
+function selectItemMenu(element_to_change){
     const navbar_massive = document.getElementsByClassName("nav-link");
     for(let i = 0; i < navbar_massive.length; i++){
-        navbar_massive[i].style.transitionDuration = "0.2s";
         if(navbar_massive[i].classList.contains("active")){
             navbar_massive[i].classList.remove("active");
-            navbar_massive[i].style.fontSize = "14px";
+            navbar_massive[i].style.letterSpacing = "2px";
         }
     }
-    element_to_change.style.fontSize = "17px";
+    element_to_change.style.letterSpacing = "5px";
     element_to_change.classList.add("active");
 }

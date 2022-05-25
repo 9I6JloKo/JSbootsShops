@@ -27,7 +27,7 @@ import jsontools.ClientJsonBuilder;
  * @author pupil
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {
-    "/send_user",
+    "/sendUser",
     
 })
 public class LoginServlet extends HttpServlet {
@@ -43,6 +43,7 @@ public class LoginServlet extends HttpServlet {
         client.setClientNumber("53883833");
         client.setClientMoney(0);
         client.setLogin("admin");
+        client.setLevel("ADMINISTRATOR");
         String salt = pp.getSalt();
         client.setSalt(salt);
         client.setPassword(pp.getProtectedPassword("12345", salt));
@@ -60,19 +61,20 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         HttpSession session = null;
         JsonObjectBuilder job = Json.createObjectBuilder();
         String path = request.getServletPath();
         switch(path){
-            case "/send_user":
+            case "/sendUser":
                 JsonReader jsonReader = Json.createReader(request.getReader());
                 JsonObject jsonObject = jsonReader.readObject();
                 String login = jsonObject.getString("login","");
                 String password = jsonObject.getString("password","");
                 Client authUser = clientFacade.findByLogin(login);
-                if(authUser == null || !authUser.getPassword().equals(pp.getProtectedPassword(password, authUser.getSalt()))){
-                    job.add("info", "Неправильный логин или пароль")
-                       .add("auth",false);
+                String passwordLogin = pp.getProtectedPassword(password, authUser.getSalt());
+                if(authUser == null || !authUser.getLogin().equals(login) || !authUser.getPassword().equals(passwordLogin)){
+                       job.add("auth",false);
                     try (PrintWriter out = response.getWriter()) {
                         out.println(job.build().toString());
                     }
