@@ -6,7 +6,7 @@ class LoginModule {
             "login": login,
             "password": password
         };
-        let promise = fetch("sendUser", {
+        let promise = fetch("login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset:utf8'
@@ -29,9 +29,10 @@ class LoginModule {
                         }
                         sessionStorage.setItem('user', JSON.stringify(response.user));
                         document.getElementById('navbar').classList.remove('d-none');
-                        document.getElementById('login_button').innerHTML = "logout";
-                        if(sessionStorage.getItem('user').level === 'USER'){
-                            document.getElementById('clients').classList.add('d-none');
+                        document.getElementById('login_button').classList.add('d-none');
+                        document.getElementById('logout_button').classList.remove('d-none');
+                        if(response.user.level === "USER"){
+//                            document.getElementById('clients').classList.add('d-none');
                             document.getElementById('shoes').classList.add('d-none');
                             document.getElementById('clients_change').classList.add('d-none');
                             document.getElementById('shoes_change').classList.add('d-none');
@@ -42,11 +43,41 @@ class LoginModule {
                })
                .catch(error =>{
                     document.getElementById('info').innerHTML = "Ошибка сервера: "+error;
-                    checkMenu();
                     document.getElementById('content').innerHTML = "";
                });
         };
-        
+    logout(){
+        let promise = fetch("logout", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset:utf8'
+            },
+            credentials: 'include',
+        });
+        promise.then(response => response.json())
+                .then(response => {
+                    const loginButton = document.getElementById("login_button");
+                    const logoutButton = document.getElementById('logout_button');
+                    const navbar_massive = document.getElementsByClassName("nav-link");
+                    if(!document.getElementById('content').classList.contains('d-none')){
+                        document.getElementById('content').classList.add('d-none');   
+                    }
+                    for(let i = 0; i < navbar_massive.length; i++){
+                        if(navbar_massive[i].classList.contains('d-none')){
+                            navbar_massive[i].classList.remove('d-none');
+                        }
+                    }
+                    document.getElementById('navbar').classList.add('d-none');
+                    document.getElementById('info').innerHTML = 'Bro, do not leave us!';
+                    logoutButton.classList.add('d-none');
+                    loginButton.classList.remove('d-none');
+                    sessionStorage.removeItem('user');
+               })
+               .catch(error =>{
+                    document.getElementById('info').innerHTML = "Ошибка сервера: "+error;
+                    document.getElementById('content').innerHTML = "";
+               });
+        };
     }
 const loginModule = new LoginModule();
 export {loginModule}

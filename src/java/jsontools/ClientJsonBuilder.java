@@ -31,6 +31,7 @@ public class ClientJsonBuilder {
         job.add("firstname", client.getClientName());
         job.add("lastname", client.getClientSurname());
         job.add("login", client.getLogin());
+        job.add("password", client.getPassword());
         job.add("level", client.getLevel());
         return job.build();
     }

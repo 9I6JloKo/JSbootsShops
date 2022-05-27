@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 package servlets;
-import facades.ClientFacade;
-import tools.PasswordProtected;
+
 import entities.Client;
+import entities.Product;
+import facades.ProductFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -20,36 +22,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import jsontools.ClientJsonBuilder;
 
 /**
  *
  * @author pupil
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {
-    "/login",
-    "/logout",
+@WebServlet(name = "ShoeServlet", urlPatterns = {
+    "/sendShoe",
     
 })
-public class LoginServlet extends HttpServlet {
-    PasswordProtected pp = new PasswordProtected();
-    @EJB private ClientFacade clientFacade;
-    @Override
-    public void init() throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        if(clientFacade.count()>0) return;
-        Client client = new Client();
-        client.setClientName("Maksim");
-        client.setClientSurname("Grishin");
-        client.setClientNumber("53883833");
-        client.setClientMoney(0);
-        client.setLogin("admin");
-        client.setLevel("ADMINISTRATOR");
-        String salt = pp.getSalt();
-        client.setSalt(salt);
-        client.setPassword(pp.getProtectedPassword("12345", salt));
-        clientFacade.create(client);
-    }
+public class ShoeServlet extends HttpServlet {
+    @EJB ProductFacade productFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -62,45 +45,30 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        HttpSession session = null;
-        Client authUser = null;
-        JsonObjectBuilder job = Json.createObjectBuilder();
         String path = request.getServletPath();
+        request.setCharacterEncoding("UTF-8");
+        JsonObjectBuilder job = Json.createObjectBuilder();
         switch(path){
-            case "/login":
-                JsonReader jsonReader = Json.createReader(request.getReader());
-                JsonObject jsonObject = jsonReader.readObject();
-                String login = jsonObject.getString("login","");
-                String password = jsonObject.getString("password","");
-                authUser = clientFacade.findByLogin(login);
-                String passwordLogin = pp.getProtectedPassword(password, authUser.getSalt());
-                if(authUser == null || !authUser.getLogin().equals(login) || !authUser.getPassword().equals(passwordLogin)){
-                       job.add("auth",false);
-                    try (PrintWriter out = response.getWriter()) {
-                        out.println(job.build().toString());
-                    }
-                }
-                else {
-                    session = request.getSession(true);
-                    session.setAttribute("authUser", authUser);
-                    job.add("info", "Йоу, "+authUser.getClientName()+"!")
-                       .add("auth",true)
-                       .add("user", new ClientJsonBuilder().getClientJsonObject(authUser));
-                    try (PrintWriter out = response.getWriter()) {
-                        out.println(job.build().toString());
-                    }
-                }
-                break;
-            case "/logout":
-                authUser = null;
-                session = request.getSession(false);
-                if(session != null){
-                    session.invalidate();
-                }
+            case "/sendShoe":
+                JsonReader jr = Json.createReader(request.getReader());
+                JsonObject jo = jr.readObject();
+                String shoeFirm = jo.getString("ShoeFirm", "");
+                String ShoeModell = jo.getString("ShoeModell", "");
+                String ShoePrice = jo.getString("ShoePrice", "");
+                String ShoeCount = jo.getString("ShoeCount", "");
+                String ShoeSize = jo.getString("ShoeSize", "");
+                Product product = new Product();
+                product.setBywho(shoeFirm);
+                product.setModell(ShoeModell);
+                product.setPrice(Double.parseDouble(ShoePrice));
+                product.setPiece(Integer.parseInt(ShoeCount));
+                product.setMaxPiece(Integer.parseInt(ShoeCount));
+                product.setBywho(ShoeSize);
+                productFacade.create(product);
+                job.add("info", "Shoe added successfully!");
                 try (PrintWriter out = response.getWriter()) {
-                    out.println(job.build().toString());
-                }
+                        out.println(job.build().toString());
+                    }
                 break;
         }
     }

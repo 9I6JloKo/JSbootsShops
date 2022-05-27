@@ -1,10 +1,10 @@
-#login_button {
+#login_button, #logout_button, #shoe_submit {
     color:lightgrey;
 }
-#login_button:hover {
+#login_button:hover, #logout_button:hover,#shoe_submit:hover {
     color:white;
 }
-#login_submit:hover {
+#login_submit:hover, #shoe_submit:hover {
     background-color: white;
     color: black;
     outline: 1px solid black;

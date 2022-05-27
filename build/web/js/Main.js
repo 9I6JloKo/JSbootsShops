@@ -1,31 +1,32 @@
 import {viewModule} from "./ViewModule.js";
+import {loginModule} from "./LoginModule.js";
+import {shoeModule} from "./ShoeModule.js";
 document.getElementById('navbar').classList.add('d-none');
 const loginButton = document.getElementById("login_button");
+const navbar_massive = document.getElementsByClassName("nav-link");
 loginButton.addEventListener("click", e => {
     e.preventDefault();
-    selectItemMenu(loginButton);
-    if(loginButton.value == 'login'){
-        viewModule.showLoginForm();   
+    if(document.getElementById('content').classList.contains('d-none')){
+        document.getElementById('content').classList.remove('d-none');   
     }
-//    else{
-//        const navigation = document.getElementsByClassName('nav-link')
-//        navigation.pop();
-//        for(let i = 0; i < navigation.length; i++){
-//            if(!navigation[i].contains('d-none')){
-//                navigation[i].add('d-none');
-//            }
-//        }
-//    }
+    viewModule.showLoginForm();   
+    selectItemMenu(loginButton);
 });
-const clients = document.getElementById("clients");
-clients.addEventListener("click", e => {
+const logoutButton = document.getElementById('logout_button');
+logoutButton.addEventListener("click", e => {
     e.preventDefault();
-    selectItemMenu(clients);
+    loginModule.logout();
 });
+//const clients = document.getElementById("clients");
+//clients.addEventListener("click", e => {
+//    e.preventDefault();
+//    selectItemMenu(clients);
+//});
 const shoes = document.getElementById("shoes");
 shoes.addEventListener("click", e => {
     e.preventDefault();
     selectItemMenu(shoes);
+    viewModule.showShoeForm();
 });
 const shopping = document.getElementById("shopping");
 shopping.addEventListener("click", e => {
@@ -48,7 +49,6 @@ dropdown.addEventListener("click", e => {
     selectItemMenu(dropdown);
 });
 function selectItemMenu(element_to_change){
-    const navbar_massive = document.getElementsByClassName("nav-link");
     for(let i = 0; i < navbar_massive.length; i++){
         if(navbar_massive[i].classList.contains("active")){
             navbar_massive[i].classList.remove("active");
