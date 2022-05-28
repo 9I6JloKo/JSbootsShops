@@ -43,11 +43,11 @@ shoesChange.addEventListener("click", e => {
     e.preventDefault();
     selectItemMenu(shoesChange);
 });
-const dropdown = document.getElementById("dropdown");
-dropdown.addEventListener("click", e => {
-    e.preventDefault();
-    selectItemMenu(dropdown);
-});
+//const dropdown = document.getElementById("dropdown");
+//dropdown.addEventListener("click", e => {
+//    e.preventDefault();
+//    selectItemMenu(dropdown);
+//});
 function selectItemMenu(element_to_change){
     for(let i = 0; i < navbar_massive.length; i++){
         if(navbar_massive[i].classList.contains("active")){
@@ -55,6 +55,7 @@ function selectItemMenu(element_to_change){
             navbar_massive[i].style.letterSpacing = "2px";
         }
     }
+    document.getElementById('info').innerHTML = '';
     element_to_change.style.letterSpacing = "5px";
     element_to_change.classList.add("active");
 }

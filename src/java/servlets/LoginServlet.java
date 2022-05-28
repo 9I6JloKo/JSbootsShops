@@ -34,6 +34,7 @@ import jsontools.ClientJsonBuilder;
 public class LoginServlet extends HttpServlet {
     PasswordProtected pp = new PasswordProtected();
     @EJB private ClientFacade clientFacade;
+    HttpSession session = null;
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
@@ -49,6 +50,9 @@ public class LoginServlet extends HttpServlet {
         client.setSalt(salt);
         client.setPassword(pp.getProtectedPassword("12345", salt));
         clientFacade.create(client);
+        if(session != null){
+            
+        }
     }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -63,7 +67,6 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        HttpSession session = null;
         Client authUser = null;
         JsonObjectBuilder job = Json.createObjectBuilder();
         String path = request.getServletPath();

@@ -42,8 +42,9 @@ class LoginModule {
                     }
                })
                .catch(error =>{
-                    document.getElementById('info').innerHTML = "Ошибка сервера: "+error;
-                    document.getElementById('content').innerHTML = "";
+                    document.getElementById('login').classList.add('is-invalid');
+                    document.getElementById('password').classList.add('is-invalid');
+                    document.getElementById('error_password').classList.remove('d-none');
                });
         };
     logout(){

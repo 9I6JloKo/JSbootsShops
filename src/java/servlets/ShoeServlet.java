@@ -46,29 +46,68 @@ public class ShoeServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String path = request.getServletPath();
+        String shoeFirm = "";
+        String shoeModell = "";
+        Double shoePrice = null;
+        int shoeCount = 0;
+        Double shoeSize = null;
         request.setCharacterEncoding("UTF-8");
         JsonObjectBuilder job = Json.createObjectBuilder();
         switch(path){
             case "/sendShoe":
-                JsonReader jr = Json.createReader(request.getReader());
-                JsonObject jo = jr.readObject();
-                String shoeFirm = jo.getString("ShoeFirm", "");
-                String ShoeModell = jo.getString("ShoeModell", "");
-                String ShoePrice = jo.getString("ShoePrice", "");
-                String ShoeCount = jo.getString("ShoeCount", "");
-                String ShoeSize = jo.getString("ShoeSize", "");
-                Product product = new Product();
-                product.setBywho(shoeFirm);
-                product.setModell(ShoeModell);
-                product.setPrice(Double.parseDouble(ShoePrice));
-                product.setPiece(Integer.parseInt(ShoeCount));
-                product.setMaxPiece(Integer.parseInt(ShoeCount));
-                product.setBywho(ShoeSize);
-                productFacade.create(product);
-                job.add("info", "Shoe added successfully!");
-                try (PrintWriter out = response.getWriter()) {
-                        out.println(job.build().toString());
+                try{
+                    JsonReader jr = Json.createReader(request.getReader());
+                    JsonObject jo = jr.readObject();
+                    shoeFirm = jo.getString("ShoeFirm", "");
+                    shoeModell = jo.getString("ShoeModell", "");
+                    shoeSize = Double.parseDouble(jo.getString("ShoeSize", ""));
+                    shoePrice = Double.parseDouble(jo.getString("ShoePrice", ""));
+                    shoeCount = Integer.parseInt(jo.getString("ShoeCount", ""));
+                    if(shoePrice >= 0.01 && shoePrice <= 300 && shoeCount >= 1 && shoeCount <= 300 && shoeSize >= 25 && shoeSize <= 55) {
+                        Product product = new Product();
+                        product.setBywho(shoeFirm);
+                        product.setModell(shoeModell);
+                        product.setPrice(shoePrice);
+                        product.setPiece(shoeCount);
+                        product.setMaxPiece(shoeCount);
+                        product.setSize(shoeSize);
+                        productFacade.create(product);
+                        job.add("done", true);
+                    }else{
+                        int m = 5;
+                        m = m/0;
                     }
+                }catch(Exception e){
+                    job.add("done", false);
+                    if("".equals(shoeFirm)){
+                        job.add("shoeFirm", false);
+                    }else{
+                        job.add("shoeFirm", true);
+                    }
+                    if("".equals(shoeModell)){
+                        job.add("shoeModell", false);
+                    }else{
+                        job.add("shoeModell", true);
+                    }
+                    if(shoeSize == null || shoeSize < 25 || shoeSize > 55){
+                        job.add("shoeSize", false);
+                    }else{
+                        job.add("shoeSize", true);
+                    }
+                    if(shoePrice == null || shoePrice < 0.01 || shoePrice > 300){
+                        job.add("shoePrice", false);
+                    }else{
+                        job.add("shoePrice", true);
+                    }
+                    if(shoeCount < 1 || shoeCount > 300){
+                        job.add("shoeCount", false);
+                    }else{
+                        job.add("shoeCount", true);
+                    }
+                }
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(job.build().toString());
+                }   
                 break;
         }
     }
