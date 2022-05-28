@@ -5,7 +5,7 @@ class ViewModule {
     showLoginForm() {
         const content = document.getElementById("content");
         content.innerHTML = `
-            <legend style="margin-bottom: 20px">Enter to system</legend>
+            <legend style="margin-bottom: 20px">Enter to the system</legend>
               <div class="form-floating mb-3">
                   <input type="text" class="form-control" id="login" placeholder="Login">
                   <label for="floatingInput">Login</label>
@@ -25,10 +25,10 @@ class ViewModule {
             e.preventDefault()
             loginModule.login();
         });
-        const registerSubmit = document.getElementById("register_submit");
-        registerSubmit.addEventListener('click', e => {
-            e.preventDefault()
-            registerModule.register();
+        const registerButton = document.getElementById('register_submit');
+        registerButton.addEventListener("click", e => {
+            e.preventDefault();
+            viewModule.showRegisterForm();
         });
     }
     showShoeForm(){
@@ -69,7 +69,49 @@ class ViewModule {
             shoeModule.sendShoe();
         });
     }
-    
+    showRegisterForm(){
+        document.getElementById('content').innerHTML = `
+            <legend style="margin-bottom: 20px">Registration in the system</legend>
+            <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="client_Name" placeholder="clientName">
+                  <label for="floatingInput">Your name</label>
+                   <div class="invalid-feedback d-none" id="error_clientName">Wrong Name</div>
+            </div>
+            <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="client_Surname" placeholder="client_Surname">
+                  <label for="floatingInput">Your surname</label>
+                   <div class="invalid-feedback d-none" id="error_client_Surname">Wrong surname</div>
+            </div>
+            <div class="form-floating mb-3">
+                  <input type="number" class="form-control" id="client_Number" placeholder="client_Number">
+                  <label for="floatingInput">Number</label>
+                   <div class="invalid-feedback d-none" id="error_client_Number">Wrong number</div>
+            </div>
+            <div class="form-floating mb-3">
+                  <input type="number" class="form-control" id="client_Money" placeholder="client_Money">
+                  <label for="floatingInput">ShoePrice(dollars)</label>
+                   <div class="invalid-feedback d-none" id="error_client_Money">Wrong money</div>
+            </div>
+            <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="client_Login" placeholder="client_Login">
+                  <label for="floatingInput">ShoeCount(in pairs)</label>
+                   <div class="invalid-feedback d-none" id="error_client_Login">Wrong login</div>
+            </div>
+            <div class="form-floating mb-3">
+                  <input type="password" class="form-control" id="client_Password" placeholder="client_Password">
+                  <label for="floatingInput">ShoeCount(in pairs)</label>
+                   <div class="invalid-feedback d-none" id="error_client_Password">Wrong password</div>
+            </div>
+             <div style= "display: flex; flex-direction: column; justify-content: center">
+                <button id = "client_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Create</button>
+            </div>
+            `
+        const registerSubmit = document.getElementById("register_submit");
+        registerSubmit.addEventListener('click', e => {
+            e.preventDefault()
+            registerModule.register();
+        });
+    }
 }
 const viewModule = new ViewModule();
 export {viewModule};
