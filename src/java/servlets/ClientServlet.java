@@ -5,8 +5,12 @@
  */
 package servlets;
 
+import entities.Client;
+import facades.ClientFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -16,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tools.PasswordProtected;
 
 /**
  *
@@ -25,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
     "/sendClient",
 })
 public class ClientServlet extends HttpServlet {
-
+    @EJB ClientFacade clientFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,21 +46,78 @@ public class ClientServlet extends HttpServlet {
         String path = request.getServletPath();
         request.setCharacterEncoding("UTF-8");
         JsonObjectBuilder job = Json.createObjectBuilder();
+        String clientName = "";
+        String clientSurname = "";
+        String clientNumber = "";
+        int lengthNumber = 0;
+        int scaleMoney = 5;
+        String clientLogin = "";
+        String clientPassword = "";
         switch(path){
             case "/sendClient":
                 try{
                     JsonReader jr = Json.createReader(request.getReader());
                     JsonObject jo = jr.readObject();
-                    String clientName = jo.getString("clientName", "");
-                    String clientSurname = jo.getString("clientSurname", "");
-                    int clientNumber = Integer.parseInt(jo.getString("clientNumber", ""));
-                    Double clientMoney = Double.parseDouble(jo.getString("clientMoney", ""));
-                    String clientLogin = jo.getString("clientLogin", "");
-                    String clientPassword = jo.getString("clientPAssword", "");
-                    
+                    clientName = jo.getString("clientName", "");
+                    clientSurname = jo.getString("clientSurname", "");
+                    clientNumber = jo.getString("clientNumber", "");
+                    lengthNumber = clientNumber.length();
+                    BigDecimal clientMoney = new BigDecimal(jo.getString("clientMoney", ""));
+                    scaleMoney = new BigDecimal(jo.getString("clientMoney", "")).scale();
+                    clientLogin = jo.getString("clientLogin", "");
+                    clientPassword = jo.getString("clientPassword", "");
+                    PasswordProtected pp = new PasswordProtected();
+                    String salt = pp.getSalt();
+                    if(!"".equals(clientName) && !"".equals(clientSurname) && !"".equals(clientLogin) && !"".equals(clientPassword) && lengthNumber <= 8 && lengthNumber >= 7 && scaleMoney >= 0 && scaleMoney <= 2){
+                        Client client = new Client();
+                        client.setClientName(clientName);
+                        client.setClientSurname(clientSurname);
+                        client.setClientNumber(clientNumber);
+                        client.setClientMoney(clientMoney);
+                        client.setLogin(clientLogin);
+                        client.setLevel("USER");
+                        client.setSalt(salt);
+                        client.setPassword(pp.getProtectedPassword(clientPassword, salt));
+                        clientFacade.create(client);
+                        job.add("done", true);
+                    }else{
+                        int i  = 5/0;
+                    }
                 }catch(Exception e){
-                
-            }
+                    if("".equals(clientName)){
+                        job.add("clientName", false);
+                    }else{
+                        job.add("clientName", true);
+                    }
+                    if("".equals(clientSurname)){
+                        job.add("clientSurname", false);
+                    }else{
+                        job.add("clientSurname", true);
+                    }
+                    if(lengthNumber > 8 || lengthNumber < 7 || lengthNumber == 0){
+                        job.add("clientNumber", false);
+                    }else{
+                        job.add("clientNumber", true);
+                    }
+                    if(scaleMoney > 2 || scaleMoney < 0){
+                        job.add("clientMoney", false);
+                    }else{
+                        job.add("clientMoney", true);
+                    }
+                    if("".equals(clientLogin)){
+                        job.add("clientLogin", false);
+                    }else{
+                        job.add("clientLogin", true);
+                    }
+                    if("".equals(clientPassword)){
+                        job.add("clientPassword", false);
+                    }else{
+                        job.add("clientPassword", true);
+                    }
+                }
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(job.build().toString());
+                }   
                 break;
         }
     }

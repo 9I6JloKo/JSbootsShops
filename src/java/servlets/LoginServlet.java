@@ -9,6 +9,7 @@ import tools.PasswordProtected;
 import entities.Client;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -43,7 +44,7 @@ public class LoginServlet extends HttpServlet {
         client.setClientName("Maksim");
         client.setClientSurname("Grishin");
         client.setClientNumber("53883833");
-        client.setClientMoney(0);
+        client.setClientMoney(new BigDecimal(0));
         client.setLogin("admin");
         client.setLevel("ADMINISTRATOR");
         String salt = pp.getSalt();

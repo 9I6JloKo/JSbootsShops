@@ -5,6 +5,7 @@
  */
 package entities;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class Client implements Serializable{
     private String clientName;
     private String clientSurname;
     private String clientNumber;
-    private double clientMoney;
+    private BigDecimal clientMoney;
     private String login;
     private String password;
     private String level;
@@ -71,7 +72,7 @@ public class Client implements Serializable{
         return clientNumber;
     }
 
-    public double getClientMoney() {
+    public BigDecimal getClientMoney() {
         return clientMoney;
     }
 
@@ -87,7 +88,7 @@ public class Client implements Serializable{
         this.clientNumber = clientNumber;
     }
 
-    public void setClientMoney(double clientMoney) {
+    public void setClientMoney(BigDecimal clientMoney) {
         this.clientMoney = clientMoney;
     }
     
@@ -102,15 +103,15 @@ public class Client implements Serializable{
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        hash = 37 * hash + Objects.hashCode(this.clientName);
-        hash = 37 * hash + Objects.hashCode(this.clientSurname);
-        hash = 37 * hash + Objects.hashCode(this.clientNumber);
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.clientMoney) ^ (Double.doubleToLongBits(this.clientMoney) >>> 32));
-        hash = 37 * hash + Objects.hashCode(this.login);
-        hash = 37 * hash + Objects.hashCode(this.password);
-        hash = 37 * hash + Objects.hashCode(this.level);
-        hash = 37 * hash + Objects.hashCode(this.salt);
+        hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.clientName);
+        hash = 79 * hash + Objects.hashCode(this.clientSurname);
+        hash = 79 * hash + Objects.hashCode(this.clientNumber);
+        hash = 79 * hash + Objects.hashCode(this.clientMoney);
+        hash = 79 * hash + Objects.hashCode(this.login);
+        hash = 79 * hash + Objects.hashCode(this.password);
+        hash = 79 * hash + Objects.hashCode(this.level);
+        hash = 79 * hash + Objects.hashCode(this.salt);
         return hash;
     }
 
@@ -126,9 +127,6 @@ public class Client implements Serializable{
             return false;
         }
         final Client other = (Client) obj;
-        if (Double.doubleToLongBits(this.clientMoney) != Double.doubleToLongBits(other.clientMoney)) {
-            return false;
-        }
         if (!Objects.equals(this.clientName, other.clientName)) {
             return false;
         }
@@ -153,8 +151,14 @@ public class Client implements Serializable{
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        if (!Objects.equals(this.clientMoney, other.clientMoney)) {
+            return false;
+        }
         return true;
     }
+    
+
+    
     
     @Override
     public String toString() {

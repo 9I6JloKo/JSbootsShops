@@ -74,8 +74,7 @@ public class ShoeServlet extends HttpServlet {
                         productFacade.create(product);
                         job.add("done", true);
                     }else{
-                        int m = 5;
-                        m = m/0;
+                        int m = 5/0;
                     }
                 }catch(Exception e){
                     job.add("done", false);

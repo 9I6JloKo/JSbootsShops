@@ -1,6 +1,7 @@
 import {loginModule} from "./LoginModule.js";
 import {shoeModule} from "./ShoeModule.js";
 import {registerModule} from "./RegisterModule.js";
+import {purchaseModule} from "./PurchaseModule.js";
 class ViewModule {
     showLoginForm() {
         const content = document.getElementById("content");
@@ -69,6 +70,24 @@ class ViewModule {
             shoeModule.sendShoe();
         });
     }
+    showPurchaseForm(){
+        document.getElementById('info').innerHTML = "SHOE ADDING"
+        document.getElementById('content').innerHTML = `
+            <div class="form-floating mb-3">
+                  <input type="number" class="form-control" id="Shoes" placeholder="Shoes">
+                  <label for="floatingInput">Shoes</label>
+                   <div class="invalid-feedback d-none" id="error_Shoes">Wrong Shoes</div>
+            </div>
+             <div style= "display: flex; flex-direction: column; justify-content: center">
+                <button id = "purchase_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Buy</button>
+            </div>
+            `
+        const purchaseSubmit = document.getElementById("purchase_submit");
+        purchaseSubmit.addEventListener('click', e => {
+            e.preventDefault()
+            purchaseModule.buying();
+        });
+    }
     showRegisterForm(){
         document.getElementById('content').innerHTML = `
             <legend style="margin-bottom: 20px">Registration in the system</legend>
@@ -89,21 +108,21 @@ class ViewModule {
             </div>
             <div class="form-floating mb-3">
                   <input type="number" class="form-control" id="client_Money" placeholder="client_Money">
-                  <label for="floatingInput">ShoePrice(dollars)</label>
+                  <label for="floatingInput">Money(dollars)</label>
                    <div class="invalid-feedback d-none" id="error_client_Money">Wrong money</div>
             </div>
             <div class="form-floating mb-3">
                   <input type="text" class="form-control" id="client_Login" placeholder="client_Login">
-                  <label for="floatingInput">ShoeCount(in pairs)</label>
+                  <label for="floatingInput">Login</label>
                    <div class="invalid-feedback d-none" id="error_client_Login">Wrong login</div>
             </div>
             <div class="form-floating mb-3">
                   <input type="password" class="form-control" id="client_Password" placeholder="client_Password">
-                  <label for="floatingInput">ShoeCount(in pairs)</label>
+                  <label for="floatingInput">Password</label>
                    <div class="invalid-feedback d-none" id="error_client_Password">Wrong password</div>
             </div>
              <div style= "display: flex; flex-direction: column; justify-content: center">
-                <button id = "client_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Create</button>
+                <button id = "register_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Create</button>
             </div>
             `
         const registerSubmit = document.getElementById("register_submit");

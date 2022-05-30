@@ -34,7 +34,7 @@ class ShoeModule {
                     if(response.done){
                         const massiveShoe = document.getElementsByClassName('form-control');
                         for(let i = 0; i < massiveShoe.length; i++){
-                            massiveShoe[i].innerHTML = ''; 
+                            massiveShoe[i].innerHTML = ``; 
                         }
                                 document.getElementById('info').innerHTML = "SUCCESSFUL!"
                     }else{

@@ -32,6 +32,7 @@ const shopping = document.getElementById("shopping");
 shopping.addEventListener("click", e => {
     e.preventDefault();
     selectItemMenu(shopping);
+    viewModule.showPurchaseForm();
 });
 const clientsChange = document.getElementById("clients_change");
 clientsChange.addEventListener("click", e => {
