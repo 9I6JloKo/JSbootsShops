@@ -36,6 +36,7 @@ class LoginModule {
                             document.getElementById('shoes').classList.add('d-none');
                             document.getElementById('clients_change').classList.add('d-none');
                             document.getElementById('shoes_change').classList.add('d-none');
+                            document.getElementById('earning').classList.add('d-none');
                         }
                         document.getElementById('content').innerHTML = "";
                         document.getElementById('info').innerHTML = response.info;

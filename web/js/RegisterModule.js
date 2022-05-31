@@ -36,9 +36,9 @@ class RegisterModule {
                     if(response.done){
                         const massiveClient = document.getElementsByClassName('form-control');
                         for(let i = 0; i < massiveClient.length; i++){
-                            massiveClient[i].innerHTML = ``; 
+                            massiveClient[i].value = ""; 
                         }
-                                document.getElementById('info').innerHTML = "SUCCESSFUL!";
+                        document.getElementById('info').innerHTML = "SUCCESSFUL!";
                     }else{
                         if(!response.clientName){
                             document.getElementById('error_clientName').classList.remove('d-none');
@@ -63,6 +63,8 @@ class RegisterModule {
                         else if(!response.clientPassword){
                             document.getElementById('error_client_Password').classList.remove('d-none');
                             document.getElementById('client_Password').classList.add('is-invalid');
+                        }else if(response.infoforif){
+                            document.getElementById('info').innerHTML = "This login is already exists";
                         }
                     }
         });

@@ -33,8 +33,8 @@ class ViewModule {
         });
     }
     showShoeForm(){
-        document.getElementById('info').innerHTML = "SHOE ADDING"
         document.getElementById('content').innerHTML = `
+            <legend style="margin-bottom: 20px">SHOE ADDING</legend>
             <div class="form-floating mb-3">
                   <input type="text" class="form-control" id="ShoeFirm" placeholder="ShoeFirm">
                   <label for="floatingInput">ShoeFirm</label>
@@ -71,14 +71,14 @@ class ViewModule {
         });
     }
     showPurchaseForm(){
-        document.getElementById('info').innerHTML = "SHOE ADDING"
         document.getElementById('content').innerHTML = `
-            <div class="form-floating mb-3">
-                  <input type="number" class="form-control" id="Shoes" placeholder="Shoes">
-                  <label for="floatingInput">Shoes</label>
-                   <div class="invalid-feedback d-none" id="error_Shoes">Wrong Shoes</div>
+            <legend style="margin-bottom: 20px">PURCHASE</legend>
+            <div class="form-group">
+                <label for="exampleSelect1" class="form-label mt-4">Shoes</label>
+                <select class="form-select" id="selectShoe">
+                </select>
             </div>
-             <div style= "display: flex; flex-direction: column; justify-content: center">
+            <div style= "display: flex; flex-direction: column; justify-content: center">
                 <button id = "purchase_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Buy</button>
             </div>
             `
@@ -86,7 +86,9 @@ class ViewModule {
         purchaseSubmit.addEventListener('click', e => {
             e.preventDefault()
             purchaseModule.buying();
+            purchaseModule.getShoeOptions();
         });
+        purchaseModule.getShoeOptions();
     }
     showRegisterForm(){
         document.getElementById('content').innerHTML = `

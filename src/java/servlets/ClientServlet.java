@@ -68,6 +68,7 @@ public class ClientServlet extends HttpServlet {
                     clientPassword = jo.getString("clientPassword", "");
                     PasswordProtected pp = new PasswordProtected();
                     String salt = pp.getSalt();
+                    Client clientExists = clientFacade.findByLogin(clientLogin);
                     if(!"".equals(clientName) && !"".equals(clientSurname) && !"".equals(clientLogin) && !"".equals(clientPassword) && lengthNumber <= 8 && lengthNumber >= 7 && scaleMoney >= 0 && scaleMoney <= 2){
                         Client client = new Client();
                         client.setClientName(clientName);
@@ -78,6 +79,10 @@ public class ClientServlet extends HttpServlet {
                         client.setLevel("USER");
                         client.setSalt(salt);
                         client.setPassword(pp.getProtectedPassword(clientPassword, salt));
+                        if(clientExists != null){
+                            job.add("infoforif", true);
+                            int i  = 5/0;
+                        }
                         clientFacade.create(client);
                         job.add("done", true);
                     }else{

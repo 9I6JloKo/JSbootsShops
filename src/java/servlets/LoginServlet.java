@@ -7,6 +7,8 @@ package servlets;
 import facades.ClientFacade;
 import tools.PasswordProtected;
 import entities.Client;
+import entities.Product;
+import facades.ProductFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -30,11 +32,12 @@ import jsontools.ClientJsonBuilder;
 @WebServlet(name = "LoginServlet", urlPatterns = {
     "/login",
     "/logout",
-    
+    "/BuyShoe",
 })
 public class LoginServlet extends HttpServlet {
     PasswordProtected pp = new PasswordProtected();
     @EJB private ClientFacade clientFacade;
+    @EJB private ProductFacade productFacade;
     HttpSession session = null;
     @Override
     public void init() throws ServletException {
@@ -101,6 +104,38 @@ public class LoginServlet extends HttpServlet {
                 session = request.getSession(false);
                 if(session != null){
                     session.invalidate();
+                }
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(job.build().toString());
+                }
+                break;
+            case "/BuyShoe":
+                try{
+                    JsonReader jr = Json.createReader(request.getReader());
+                    JsonObject jo = jr.readObject();
+                    long productId = Long.parseLong(jo.getString("productId", ""));
+                    Product product = productFacade.find(productId);
+                    Client client = (Client) session.getAttribute("authUser");
+                    BigDecimal pp = BigDecimal.valueOf(product.getPrice());
+                    if(client.getClientMoney().compareTo(pp) >= 0 && product.getPiece() >= 1){
+                        client.setClientMoney(client.getClientMoney().subtract(pp));
+                        product.setPiece(product.getPiece()-1);
+                        clientFacade.edit(client);
+                        productFacade.edit(product);
+                        job.add("status", true)
+                                .add("info", "SUCCESSFUL");
+                    }else{
+                        if(client.getClientMoney().compareTo(pp) == -1){
+                            job.add("status", false)
+                                .add("info", "You've ran out of money");
+                        }else{
+                            job.add("status", false)
+                                .add("info", "We've ran out of shoe");
+                        }
+                    }
+                }catch(Exception e){
+                    job.add("status", false)
+                        .add("info", "Choose shoes you want, please");
                 }
                 try (PrintWriter out = response.getWriter()) {
                     out.println(job.build().toString());

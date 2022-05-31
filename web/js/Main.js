@@ -44,6 +44,11 @@ shoesChange.addEventListener("click", e => {
     e.preventDefault();
     selectItemMenu(shoesChange);
 });
+const earning = document.getElementById("earning");
+earning.addEventListener("click", e => {
+    e.preventDefault();
+    selectItemMenu(earning);
+});
 //const dropdown = document.getElementById("dropdown");
 //dropdown.addEventListener("click", e => {
 //    e.preventDefault();

@@ -11,6 +11,7 @@ import facades.ProductFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import jsontools.ShoeJsonBuilder;
 
 /**
  *
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "ShoeServlet", urlPatterns = {
     "/sendShoe",
+    "/getShoeOptions",
     
 })
 public class ShoeServlet extends HttpServlet {
@@ -103,6 +106,17 @@ public class ShoeServlet extends HttpServlet {
                     }else{
                         job.add("shoeCount", true);
                     }
+                }
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(job.build().toString());
+                }   
+                break;
+            case "/getShoeOptions":
+                List<Product> products = productFacade.findAll();
+                ShoeJsonBuilder sjb = new ShoeJsonBuilder();
+                if(!products.isEmpty()){
+                    job.add("status", true)
+                    .add("options", sjb.getShoesJsonArray(products));
                 }
                 try (PrintWriter out = response.getWriter()) {
                     out.println(job.build().toString());
