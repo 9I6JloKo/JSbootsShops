@@ -4,12 +4,12 @@
 #login_button:hover, #logout_button:hover {
     color:white;
 }
-#login_submit, #shoe_submit, #shoe_submit, #client_submit, #purchase_submit {
+#login_submit, #shoe_submit, #shoe_submit, #client_submit, #purchase_submit, #change_submit {
    border-radius: 10px;
    color: white;
    box-shadow: inset 0 -5px 0 #40382D;
 }
-#login_submit:hover, #shoe_submit:hover, shoe_submit:hover, #client_submit:hover, #purchase_submit:hover{
+#login_submit:hover, #shoe_submit:hover, shoe_submit:hover, #client_submit:hover, #purchase_submit:hover, #change_submit:hover{
    box-shadow: inset 0 -60px 0 #40382D, 2px 2px 3px rgba(0, 0, 0, 0.3);
    color: #DECDA5;
 }

@@ -38,6 +38,7 @@ const clientsChange = document.getElementById("clients_change");
 clientsChange.addEventListener("click", e => {
     e.preventDefault();
     selectItemMenu(clientsChange);
+    viewModule.showChangeClientForm();
 });
 const shoesChange = document.getElementById("shoes_change");
 shoesChange.addEventListener("click", e => {

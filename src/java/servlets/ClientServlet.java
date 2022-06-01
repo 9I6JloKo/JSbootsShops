@@ -6,10 +6,12 @@
 package servlets;
 
 import entities.Client;
+import entities.Product;
 import facades.ClientFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -20,6 +22,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import jsontools.ClientJsonBuilder;
+import jsontools.ShoeJsonBuilder;
 import tools.PasswordProtected;
 
 /**
@@ -28,6 +32,8 @@ import tools.PasswordProtected;
  */
 @WebServlet(name = "ClientServlet", urlPatterns = {
     "/sendClient",
+    "/getClientOptions",
+    "/fillInputsClient",
 })
 public class ClientServlet extends HttpServlet {
     @EJB ClientFacade clientFacade;
@@ -120,6 +126,29 @@ public class ClientServlet extends HttpServlet {
                         job.add("clientPassword", true);
                     }
                 }
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(job.build().toString());
+                }   
+                break;
+            case "/getClientOptions":
+                List<Client> clients = clientFacade.findAll();
+                ClientJsonBuilder cjb = new ClientJsonBuilder();
+                if(!clients.isEmpty()){
+                    job.add("status", true)
+                    .add("options", cjb.getClientsJsonArray(clients));
+                }
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(job.build().toString());
+                }   
+                break;
+            case "/fillInputsClient":
+                JsonReader jr = Json.createReader(request.getReader());
+                JsonObject jo = jr.readObject();
+                long clientId = Long.parseLong(jo.getString("clientId", ""));
+                Client client = clientFacade.find(clientId);
+                ClientJsonBuilder cjb2 = new ClientJsonBuilder();
+                job.add("client", cjb2.getClientJsonObject(client))
+                        .add("status", true);
                 try (PrintWriter out = response.getWriter()) {
                     out.println(job.build().toString());
                 }   

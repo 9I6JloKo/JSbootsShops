@@ -16,7 +16,6 @@ import javax.json.JsonObjectBuilder;
 
 /**
  *
- * @author Melnikov
  */
 public class ShoeJsonBuilder {
     public JsonArray getShoesJsonArray(List<Product> listProducts){

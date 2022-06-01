@@ -18,7 +18,7 @@ import javax.json.JsonObjectBuilder;
  * @author pupil
  */
 public class ClientJsonBuilder {
-    public JsonArray getUsersJsonArray(List<Client> listClients){
+    public JsonArray getClientsJsonArray(List<Client> listClients){
         JsonArrayBuilder jab = Json.createArrayBuilder();
         for(int i=0;i<listClients.size();i++){
             jab.add(getClientJsonObject(listClients.get(i)));
@@ -30,6 +30,8 @@ public class ClientJsonBuilder {
         job.add("id", client.getId());
         job.add("firstname", client.getClientName());
         job.add("lastname", client.getClientSurname());
+        job.add("money", client.getClientMoney());
+        job.add("number", client.getClientNumber());
         job.add("login", client.getLogin());
         job.add("password", client.getPassword());
         job.add("level", client.getLevel());
