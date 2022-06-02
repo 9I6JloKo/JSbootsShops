@@ -17,10 +17,10 @@ logoutButton.addEventListener("click", e => {
     e.preventDefault();
     loginModule.logout();
 });
-//const clients = document.getElementById("clients");
-//clients.addEventListener("click", e => {
+//const editMyself = document.getElementById("edit_myself");
+//editMyself.addEventListener("click", e => {
 //    e.preventDefault();
-//    selectItemMenu(clients);
+//    selectItemMenu(editMyself);
 //});
 const shoes = document.getElementById("shoes");
 shoes.addEventListener("click", e => {

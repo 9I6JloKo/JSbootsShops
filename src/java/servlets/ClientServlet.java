@@ -34,6 +34,7 @@ import tools.PasswordProtected;
     "/sendClient",
     "/getClientOptions",
     "/fillInputsClient",
+    "/editClient",
 })
 public class ClientServlet extends HttpServlet {
     @EJB ClientFacade clientFacade;
@@ -75,7 +76,12 @@ public class ClientServlet extends HttpServlet {
                     PasswordProtected pp = new PasswordProtected();
                     String salt = pp.getSalt();
                     Client clientExists = clientFacade.findByLogin(clientLogin);
-                    if(!"".equals(clientName) && !"".equals(clientSurname) && !"".equals(clientLogin) && !"".equals(clientPassword) && lengthNumber <= 8 && lengthNumber >= 7 && scaleMoney >= 0 && scaleMoney <= 2){
+                    if(!"".equals(clientName)
+                            && !"".equals(clientSurname)
+                            && !"".equals(clientLogin)
+                            && !"".equals(clientPassword)
+                            && lengthNumber <= 8 && lengthNumber >= 7
+                            && scaleMoney >= 0 && scaleMoney <= 2){
                         Client client = new Client();
                         client.setClientName(clientName);
                         client.setClientSurname(clientSurname);
@@ -105,7 +111,7 @@ public class ClientServlet extends HttpServlet {
                     }else{
                         job.add("clientSurname", true);
                     }
-                    if(lengthNumber > 8 || lengthNumber < 7 || lengthNumber == 0){
+                    if(lengthNumber > 8 || lengthNumber < 7){
                         job.add("clientNumber", false);
                     }else{
                         job.add("clientNumber", true);
@@ -132,6 +138,7 @@ public class ClientServlet extends HttpServlet {
                 break;
             case "/getClientOptions":
                 List<Client> clients = clientFacade.findAll();
+                clients.remove(0);
                 ClientJsonBuilder cjb = new ClientJsonBuilder();
                 if(!clients.isEmpty()){
                     job.add("status", true)
@@ -151,6 +158,101 @@ public class ClientServlet extends HttpServlet {
                         .add("status", true);
                 try (PrintWriter out = response.getWriter()) {
                     out.println(job.build().toString());
+                }   
+                break;
+            case "/editClient":
+                jr = Json.createReader(request.getReader());
+                jo = jr.readObject();
+                long clientIdEdit = Long.parseLong(jo.getString("clientId_edit", ""));
+                Client clientEditByIdExists = clientFacade.find(clientIdEdit);
+                clientLogin = jo.getString("clientLogin_edit", "");
+                Client clientEditExists = clientFacade.findByLogin(clientLogin);
+                String clientLevelEdit = jo.getString("clientLevel_edit", "");
+                boolean LoginTrue = false;
+                try{
+                    clientName = jo.getString("clientName_edit", "");
+                    clientSurname = jo.getString("clientSurname_edit", "");
+                    clientNumber = jo.getString("clientNumber_edit", "");
+                    clientPassword = jo.getString("clientPassword_edit", "");
+                    lengthNumber = clientNumber.length();
+                    BigDecimal clientMoney = new BigDecimal(jo.getString("clientMoney_edit", ""));
+                    scaleMoney = new BigDecimal(jo.getString("clientMoney_edit", "")).scale();
+                    PasswordProtected pp = new PasswordProtected();
+                    String salt = pp.getSalt();
+                    if(clientEditExists != null){
+                       LoginTrue = clientEditExists.getLogin().equals(clientEditByIdExists.getLogin());
+                    }
+                    if(!"".equals(clientName)
+                            && !"".equals(clientName)
+                            && !"".equals(clientSurname)
+                            && !"".equals(clientLogin)
+//                            && !"".equals(clientPassword)
+                            && lengthNumber <=8 && lengthNumber >=7
+                            && (LoginTrue || clientEditExists == null)
+                            && !clientEditByIdExists.getLogin().equals("admin")
+                            && !"".equals(clientLevelEdit)
+                            && scaleMoney >= 0 && scaleMoney <= 2){
+                        clientEditByIdExists.setClientName(clientName);
+                        clientEditByIdExists.setClientSurname(clientSurname);
+                        clientEditByIdExists.setClientNumber(clientNumber);
+                        clientEditByIdExists.setClientMoney(clientMoney);
+                        clientEditByIdExists.setLogin(clientLogin);
+                        if(!"".equals(clientPassword)){
+                            clientEditByIdExists.setPassword(pp.getProtectedPassword(clientPassword, salt));
+                        }
+                        clientEditByIdExists.setSalt(salt);
+                        clientEditByIdExists.setLevel(clientLevelEdit);
+                        clientFacade.edit(clientEditByIdExists);
+                        job.add("status", true)
+                                .add("clientId", clientIdEdit);
+                    }
+                    else{
+                            int i = 5/0;
+                    }
+                }
+                catch(Exception e){
+                    if("".equals(clientName)){
+                        job.add("clientNameEdit", false);
+                    }else{
+                        job.add("clientNameEdit", true);
+                    }
+                    if("".equals(clientSurname)){
+                        job.add("clientSurnameEdit", false);
+                    }else{
+                        job.add("clientSurnameEdit", true);
+                    }
+                    if(lengthNumber > 8 || lengthNumber < 7){
+                        job.add("clientNumberEdit", false);
+                    }else{
+                        job.add("clientNumberEdit", true);
+                    }
+                    if("".equals(clientLogin)){
+                        job.add("clientLoginEdit", false);
+                        job.add("clientLoginEdit_text", "Wrong login");
+                    }else if(!clientEditExists.getLogin().equals(clientEditByIdExists.getLogin())){
+                        job.add("clientLoginEdit", false);
+                        job.add("clientLoginEditText", true);
+                    }else{
+                        job.add("clientLoginEdit", true);
+                    }
+                    if(scaleMoney > 2 || scaleMoney < 0){
+                        job.add("clientMoneyEdit", false);
+                    }else{
+                        job.add("clientMoneyEdit", true);
+                    }
+//                    if("".equals(clientPassword)){
+//                        job.add("clientPasswordEdit", false);
+//                    }else{
+//                        job.add("clientPasswordEdit", true);
+//                    }
+                    if("".equals(clientLevelEdit)){
+                        job.add("clientLevelEdit", false);
+                    }else{
+                        job.add("clientLevelEdit", true);
+                    }
+                }
+                try (PrintWriter out = response.getWriter()) {
+                        out.println(job.build().toString());
                 }   
                 break;
         }

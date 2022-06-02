@@ -58,13 +58,16 @@ class RegisterModule {
                         }
                         else if(!response.clientLogin){
                             document.getElementById('error_client_Login').classList.remove('d-none');
+                            document.getElementById('error_client_Login').innerHTML = "Wrong login";
                             document.getElementById('client_Login').classList.add('is-invalid');
                         }
                         else if(!response.clientPassword){
                             document.getElementById('error_client_Password').classList.remove('d-none');
                             document.getElementById('client_Password').classList.add('is-invalid');
                         }else if(response.infoforif){
-                            document.getElementById('info').innerHTML = "This login is already exists";
+                            document.getElementById('error_client_Login').classList.remove('d-none');
+                            document.getElementById('error_client_Login').innerHTML = "This login already exists"
+                            document.getElementById('client_Login').classList.add('is-invalid');
                         }
                     }
         });

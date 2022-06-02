@@ -32,7 +32,7 @@ class LoginModule {
                         document.getElementById('login_button').classList.add('d-none');
                         document.getElementById('logout_button').classList.remove('d-none');
                         if(response.user.level === "USER"){
-//                            document.getElementById('clients').classList.add('d-none');
+//                            document.getElementById('edit_myself').classList.add('d-none');
                             document.getElementById('shoes').classList.add('d-none');
                             document.getElementById('clients_change').classList.add('d-none');
                             document.getElementById('shoes_change').classList.add('d-none');

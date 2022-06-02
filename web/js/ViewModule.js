@@ -3,6 +3,8 @@ import {shoeModule} from "./ShoeModule.js";
 import {registerModule} from "./RegisterModule.js";
 import {purchaseModule} from "./PurchaseModule.js";
 import {changeClientModule} from "./ChangeClientModule.js"
+import {shoeOptionsModule} from "./ShoeOptionsModule.js"
+import {clientOptionsModule} from "./ClientOptionsModule.js"
 class ViewModule {
     showLoginForm() {
         const content = document.getElementById("content");
@@ -52,7 +54,7 @@ showRegisterForm(){
                    <div class="invalid-feedback d-none" id="error_client_Number">Wrong number</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="number" class="form-control" id="client_Money" placeholder="client_Money">
+                  <input type="number" step = "0.01" class="form-control" id="client_Money" placeholder="client_Money">
                   <label for="floatingInput">Money(dollars)</label>
                    <div class="invalid-feedback d-none" id="error_client_Money">Wrong money</div>
             </div>
@@ -95,7 +97,7 @@ showRegisterForm(){
                    <div class="invalid-feedback d-none" id="error_ShoeSize">Wrong ShoeSize</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="number" class="form-control" id="ShoePrice" placeholder="ShoePrice(dollars)">
+                  <input type="number" step = "0.01" class="form-control" id="ShoePrice" placeholder="ShoePrice(dollars)">
                   <label for="floatingInput">ShoePrice(dollars)</label>
                    <div class="invalid-feedback d-none" id="error_ShoePrice">Wrong ShoePrice</div>
             </div>
@@ -130,13 +132,11 @@ showRegisterForm(){
         purchaseSubmit.addEventListener('click', e => {
             e.preventDefault();
             purchaseModule.buying();
-            purchaseModule.getShoeOptions();
         });
-        purchaseModule.getShoeOptions();
+        shoeOptionsModule.getShoeOptions();
     }
     showChangeClientForm(){
         document.getElementById('content').innerHTML = `
-            <legend style="margin-bottom: 20px">Edit client</legend>
             <div class="form-group" style="margin-bottom:20px">
                 <label for="exampleSelect1" class="form-label mt-4">Clients</label>
                 <select class="form-select" id="selectClient">
@@ -159,20 +159,25 @@ showRegisterForm(){
                    <div class="invalid-feedback d-none" id="error_client_Number">Wrong number</div>
             </div>
             <div class="form-floating mb-3">
+                  <input type="number" step = "0.01" class="form-control" id="client_Money" placeholder="client_Money">
+                  <label for="floatingInput">Money(dollars)</label>
+                   <div class="invalid-feedback d-none" id="error_client_Money">Wrong money</div>
+            </div>
+            <div class="form-floating mb-3">
                   <input type="text" class="form-control" id="client_Login" placeholder="client_Login">
                   <label for="floatingInput">Client login</label>
                    <div class="invalid-feedback d-none" id="error_client_Login">Wrong login</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="password" class="form-control" id="client_Password" placeholder="client_Password">
+                  <input class="form-control" id="client_Password" placeholder="client_Password">
                   <label for="floatingInput">Client password</label>
-                   <div class="invalid-feedback d-none" id="error_client_Password">Wrong password</div>
             </div>
             <div class="form-group" style="margin-bottom:15px">
                 <select class="form-select" id="selectLevel">
+                    <option value = "">Choose option, please</option>
                     <option value = "USER">USER</option>
-                    <option value = "SELLER">SELLER</option>
-                    <option value = "ADMINISTRATOR">ADMINISTRATOR</option>
+                    <option value = "MANAGER">MANAGER</option>
+                    <option value = "SECADMIN">SECADMIN</option>
                 </select>
                 <div class="invalid-feedback d-none" id="error_client_Level">Wrong level</div>
             </div>
@@ -186,16 +191,19 @@ showRegisterForm(){
             if(document.getElementById('selectClient').value !== ''){
                 changeClientModule.fillInputs();
             }else{
-                changeClientModule.emptyInputs()
+                changeClientModule.emptyInputs();
             }
         });
-//        const registerSubmit = document.getElementById("register_submit");
-//        registerSubmit.addEventListener('click', e => {
-//            e.preventDefault();
-//            changeClientModule.change();
-//            changeClientModule.getClientOptions();
-//        });
-        changeClientModule.getClientOptions();
+        const changeSubmit = document.getElementById("change_submit");
+        changeSubmit.addEventListener('click', e => {
+            e.preventDefault();
+            if(document.getElementById('selectClient').value !== ''){
+                changeClientModule.edit();
+            }else{
+                document.getElementById('info').innerHTML = "Choose client you want, please";
+            }
+        });
+        clientOptionsModule.getClientOptions();
     }
 }
 const viewModule = new ViewModule();
