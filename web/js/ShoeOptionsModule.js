@@ -19,7 +19,7 @@ class ShoeOptionsModule {
                         for(let i = 0; i < response.options.length; i++){
                             if(response.options[i].productPiece !== 0){
                                 option = document.createElement('option');
-                                option.text = response.options[i].productFirm + ' ' + response.options[i].productModell + '; Price: ' + response.options[i].productPrice + '€; Size: ' + response.options[i].productSize + '; Count: ' + response.options[i].productPiece;
+                                option.text = response.options[i].productFirm + ' ' + response.options[i].productModell + '; Price: ' + response.options[i].productPrice + '$; Size: ' + response.options[i].productSize + '; Count: ' + response.options[i].productPiece;
                                 option.value = response.options[i].id;
                                 shoeSelect.add(option);
                             }

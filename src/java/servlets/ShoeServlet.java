@@ -23,7 +23,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import jsontools.ClientJsonBuilder;
 import jsontools.ShoeJsonBuilder;
+import tools.PasswordProtected;
 
 /**
  *
@@ -32,7 +34,8 @@ import jsontools.ShoeJsonBuilder;
 @WebServlet(name = "ShoeServlet", urlPatterns = {
     "/sendShoe",
     "/getShoeOptions",
-    
+    "/editShoe",
+    "/fillInputsShoes",
 })
 public class ShoeServlet extends HttpServlet {
     @EJB ProductFacade productFacade;
@@ -120,6 +123,74 @@ public class ShoeServlet extends HttpServlet {
                 }
                 try (PrintWriter out = response.getWriter()) {
                     out.println(job.build().toString());
+                }   
+                break;
+            case "/fillInputsShoes":
+                JsonReader jr = Json.createReader(request.getReader());
+                JsonObject jo = jr.readObject();
+                long shoeId = Long.parseLong(jo.getString("shoeId", ""));
+                Product product = productFacade.find(shoeId);
+                sjb = new ShoeJsonBuilder();
+                job.add("shoe", sjb.getShoesJsonObject(product))
+                        .add("status", true);
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(job.build().toString());
+                }   
+            break;
+            case "/editShoe":
+                jr = Json.createReader(request.getReader());
+                jo = jr.readObject();
+                long shoeIdEdit = Long.parseLong(jo.getString("shoeId_edit", ""));
+                shoeFirm = jo.getString("shoeFirm_edit", "");
+                shoeModell = jo.getString("shoeModell_edit", "");
+                shoeSize = Double.parseDouble(jo.getString("shoeSize_edit", ""));
+                shoePrice = Double.parseDouble(jo.getString("shoePrice_edit", ""));
+                shoeCount = Integer.parseInt(jo.getString("shoeCount_edit", ""));
+                Product shoe = productFacade.find(shoeIdEdit);
+                try{
+                    if(shoePrice >= 0.01 && shoePrice <= 300 && shoeCount >= 1 && shoeCount <= 300 && shoeSize >= 25 && shoeSize <= 55){
+                        shoe.setBywho(shoeFirm);
+                        shoe.setModell(shoeModell);
+                        shoe.setPrice(shoePrice);
+                        shoe.setPiece(shoeCount);
+                        shoe.setMaxPiece(shoeCount);
+                        shoe.setSize(shoeSize);
+                        productFacade.edit(shoe);
+                        job.add("done", true);
+                    }
+                    else{
+                            int i = 5/0;
+                    }
+                }
+                catch(Exception e){
+                    if("".equals(shoeFirm)){
+                        job.add("shoeFirmEdit", false);
+                    }else{
+                        job.add("shoeFirmEdit", true);
+                    }
+                    if("".equals(shoeModell)){
+                        job.add("shoeModellEdit", false);
+                    }else{
+                        job.add("shoeModellEdit", true);
+                    }
+                    if(shoeSize == null || shoeSize < 25 || shoeSize > 55){
+                        job.add("shoeSizeEdit", false);
+                    }else{
+                        job.add("shoeSizeEdit", true);
+                    }
+                    if(shoePrice == null || shoePrice < 0.01 || shoePrice > 300){
+                        job.add("shoePriceEdit", false);
+                    }else{
+                        job.add("shoePriceEdit", true);
+                    }
+                    if(shoeCount < 1 || shoeCount > 300){
+                        job.add("shoeCountEdit", false);
+                    }else{
+                        job.add("shoeCountEdit", true);
+                    }
+                }
+                try (PrintWriter out = response.getWriter()) {
+                        out.println(job.build().toString());
                 }   
                 break;
         }

@@ -5,8 +5,11 @@
  */
 package entities;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,74 +25,60 @@ public class History implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateOfBuying;
-    private String clientNumber;
-    private String product;
-    private Double size;
-    private String clientName;
-    private LocalDate localDate;
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Calendar dateOfBuying;
+    private Product product;
+    private BigDecimal productPrice;
+    private Client client;
 
     public Long getId() {
         return id;
     }
-    
-    public String getClientName() {
-        return clientName;
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-    public Double getSize() {
-        return size;
-    }
-    
-    public Date getDateOfBuying() {
+    public Calendar getDateOfBuying() {
         return dateOfBuying;
     }
 
-    public String getClientNumber() {
-        return clientNumber;
+    public void setDateOfBuying(Date dateOfBuying) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(dateOfBuying);
+        this.dateOfBuying = calendar;
     }
-
-    public String getProduct() {
+    public Product getProduct() {
         return product;
     }
 
-    public void setDateOfBuying(Date dateOfBuying) {
-        this.dateOfBuying = dateOfBuying;
-        
-    }
-
-    public void setClientNumber(String clientNumber) {
-        this.clientNumber = clientNumber;
-    }
-
-    public void setSize(Double size) {
-        this.size = size;
-    }
-
-    public void setProduct(String product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 
-    public LocalDate getLocalDate() {
-        return localDate;
+    public BigDecimal getProductPrice() {
+        return productPrice;
     }
 
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
+    public void setProductPrice(BigDecimal productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    @Override
+    public String toString() {
+        return "History{" + "id=" + id + ", dateOfBuying=" + dateOfBuying + ", product=" + product + ", productPrice=" + productPrice + ", client=" + client + '}';
     }
     
-    @Override
-    public String toString(){
-        return "Об истории: [" + "Номер покупателя: " + clientNumber + "; \tЕго имя: " + clientName + "; \tМодель(подробная): " + product + "; \tРазмер: " + size + "; \tДата покупки: " + 
-                localDate.minusWeeks(2).getDayOfMonth() + "." + localDate.minusWeeks(2).getMonthValue() + "." + localDate.minusWeeks(2).getYear() + "; \tВремя, до которого возможно вернуть: " + localDate.getDayOfMonth() + "." + localDate.getMonthValue() + "." + localDate.getYear() + "]";
-    }
+    
+    
     
 }
+
+// localDate.minusWeeks(2).getDayOfMonth() + "." + localDate.minusWeeks(2).getMonthValue() + "." + localDate.minusWeeks(2).getYear() + "; \tВремя, до которого возможно вернуть: " + localDate.getDayOfMonth() + "." + localDate.getMonthValue() + "." + localDate.getYear()

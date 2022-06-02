@@ -44,11 +44,19 @@ const shoesChange = document.getElementById("shoes_change");
 shoesChange.addEventListener("click", e => {
     e.preventDefault();
     selectItemMenu(shoesChange);
+    viewModule.showChangeShoesForm();
 });
 const earning = document.getElementById("earning");
 earning.addEventListener("click", e => {
     e.preventDefault();
     selectItemMenu(earning);
+    viewModule.showEarning();
+});
+const editMyself = document.getElementById("edit_myself");
+editMyself.addEventListener("click", e => {
+    e.preventDefault();
+    selectItemMenu(editMyself);
+    viewModule.showEditMyself();
 });
 //const dropdown = document.getElementById("dropdown");
 //dropdown.addEventListener("click", e => {

@@ -56,6 +56,7 @@ public class ClientServlet extends HttpServlet {
         String clientName = "";
         String clientSurname = "";
         String clientNumber = "";
+        BigDecimal clientMoney = null;
         int lengthNumber = 0;
         int scaleMoney = 5;
         String clientLogin = "";
@@ -69,7 +70,7 @@ public class ClientServlet extends HttpServlet {
                     clientSurname = jo.getString("clientSurname", "");
                     clientNumber = jo.getString("clientNumber", "");
                     lengthNumber = clientNumber.length();
-                    BigDecimal clientMoney = new BigDecimal(jo.getString("clientMoney", ""));
+                    clientMoney = new BigDecimal(jo.getString("clientMoney", null));
                     scaleMoney = new BigDecimal(jo.getString("clientMoney", "")).scale();
                     clientLogin = jo.getString("clientLogin", "");
                     clientPassword = jo.getString("clientPassword", "");
@@ -80,6 +81,7 @@ public class ClientServlet extends HttpServlet {
                             && !"".equals(clientSurname)
                             && !"".equals(clientLogin)
                             && !"".equals(clientPassword)
+                            && clientMoney.compareTo(new BigDecimal(0)) >= 0 && clientMoney != null
                             && lengthNumber <= 8 && lengthNumber >= 7
                             && scaleMoney >= 0 && scaleMoney <= 2){
                         Client client = new Client();
@@ -116,7 +118,7 @@ public class ClientServlet extends HttpServlet {
                     }else{
                         job.add("clientNumber", true);
                     }
-                    if(scaleMoney > 2 || scaleMoney < 0){
+                    if(scaleMoney > 2 || scaleMoney < 0 || clientMoney.compareTo(new BigDecimal(0)) < 0 || clientMoney == null){
                         job.add("clientMoney", false);
                     }else{
                         job.add("clientMoney", true);
@@ -164,6 +166,7 @@ public class ClientServlet extends HttpServlet {
                 jr = Json.createReader(request.getReader());
                 jo = jr.readObject();
                 long clientIdEdit = Long.parseLong(jo.getString("clientId_edit", ""));
+                String tryMyself = jo.getString("try_myself", "");
                 Client clientEditByIdExists = clientFacade.find(clientIdEdit);
                 clientLogin = jo.getString("clientLogin_edit", "");
                 Client clientEditExists = clientFacade.findByLogin(clientLogin);
@@ -175,7 +178,7 @@ public class ClientServlet extends HttpServlet {
                     clientNumber = jo.getString("clientNumber_edit", "");
                     clientPassword = jo.getString("clientPassword_edit", "");
                     lengthNumber = clientNumber.length();
-                    BigDecimal clientMoney = new BigDecimal(jo.getString("clientMoney_edit", ""));
+                    clientMoney = new BigDecimal(jo.getString("clientMoney_edit", null));
                     scaleMoney = new BigDecimal(jo.getString("clientMoney_edit", "")).scale();
                     PasswordProtected pp = new PasswordProtected();
                     String salt = pp.getSalt();
@@ -188,9 +191,9 @@ public class ClientServlet extends HttpServlet {
                             && !"".equals(clientLogin)
 //                            && !"".equals(clientPassword)
                             && lengthNumber <=8 && lengthNumber >=7
+                            && clientMoney.compareTo(new BigDecimal(0)) >= 0 && clientMoney != null
                             && (LoginTrue || clientEditExists == null)
-                            && !clientEditByIdExists.getLogin().equals("admin")
-                            && !"".equals(clientLevelEdit)
+                            && (!"".equals(clientLevelEdit) || "1".equals(tryMyself))
                             && scaleMoney >= 0 && scaleMoney <= 2){
                         clientEditByIdExists.setClientName(clientName);
                         clientEditByIdExists.setClientSurname(clientSurname);
@@ -199,12 +202,17 @@ public class ClientServlet extends HttpServlet {
                         clientEditByIdExists.setLogin(clientLogin);
                         if(!"".equals(clientPassword)){
                             clientEditByIdExists.setPassword(pp.getProtectedPassword(clientPassword, salt));
+                            clientEditByIdExists.setSalt(salt);
                         }
-                        clientEditByIdExists.setSalt(salt);
-                        clientEditByIdExists.setLevel(clientLevelEdit);
+                        if(!"1".equals(tryMyself)){
+                            clientEditByIdExists.setLevel(clientLevelEdit);
+                        }
                         clientFacade.edit(clientEditByIdExists);
                         job.add("status", true)
                                 .add("clientId", clientIdEdit);
+                        if(!"1".equals(tryMyself)){
+                            job.add("insertOptionsTrue", true);
+                        }
                     }
                     else{
                             int i = 5/0;
@@ -235,18 +243,17 @@ public class ClientServlet extends HttpServlet {
                     }else{
                         job.add("clientLoginEdit", true);
                     }
-                    if(scaleMoney > 2 || scaleMoney < 0){
+                    if(scaleMoney > 2 || scaleMoney < 0 || clientMoney.compareTo(new BigDecimal(0)) < 0 || clientMoney == null){
                         job.add("clientMoneyEdit", false);
                     }else{
                         job.add("clientMoneyEdit", true);
                     }
-//                    if("".equals(clientPassword)){
-//                        job.add("clientPasswordEdit", false);
-//                    }else{
-//                        job.add("clientPasswordEdit", true);
-//                    }
-                    if("".equals(clientLevelEdit)){
-                        job.add("clientLevelEdit", false);
+                    if(!"1".equals(tryMyself)){
+                        if("".equals(clientLevelEdit)){
+                            job.add("clientLevelEdit", false);
+                        }else{
+                            job.add("clientLevelEdit", true);
+                        }
                     }else{
                         job.add("clientLevelEdit", true);
                     }

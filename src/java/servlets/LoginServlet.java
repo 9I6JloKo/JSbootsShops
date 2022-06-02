@@ -7,11 +7,16 @@ package servlets;
 import facades.ClientFacade;
 import tools.PasswordProtected;
 import entities.Client;
+import entities.History;
 import entities.Product;
+import facades.HistoryFacade;
 import facades.ProductFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -38,6 +43,7 @@ public class LoginServlet extends HttpServlet {
     PasswordProtected pp = new PasswordProtected();
     @EJB private ClientFacade clientFacade;
     @EJB private ProductFacade productFacade;
+    @EJB private HistoryFacade historyFacade;
     HttpSession session = null;
     @Override
     public void init() throws ServletException {
@@ -111,15 +117,24 @@ public class LoginServlet extends HttpServlet {
                 break;
             case "/BuyShoe":
                 try{
+                    
                     JsonReader jr = Json.createReader(request.getReader());
                     JsonObject jo = jr.readObject();
                     long productId = Long.parseLong(jo.getString("productId", ""));
                     Product product = productFacade.find(productId);
                     Client client = (Client) session.getAttribute("authUser");
+                    client = clientFacade.find(client.getId());
                     BigDecimal pp = BigDecimal.valueOf(product.getPrice());
                     if(client.getClientMoney().compareTo(pp) >= 0 && product.getPiece() >= 1){
                         client.setClientMoney(client.getClientMoney().subtract(pp));
                         product.setPiece(product.getPiece()-1);
+                        History history = new History();
+                        history.setProduct(product);
+                        history.setClient(client);
+                        Calendar c = new GregorianCalendar();
+                        history.setDateOfBuying(c.getTime());
+                        history.setProductPrice(new BigDecimal(product.getPrice()));
+                        historyFacade.create(history);
                         clientFacade.edit(client);
                         productFacade.edit(product);
                         job.add("status", true)

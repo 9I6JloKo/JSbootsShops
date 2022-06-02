@@ -1,7 +1,14 @@
 import {clientOptionsModule} from "./ClientOptionsModule.js"
 class ChangeClientModule {
     fillInputs(){
-        const clientId = document.getElementById('selectClient').value;
+        let clientId;
+        try{
+            if(document.getElementById('selectClient').value !== ''){
+                 clientId = document.getElementById('selectClient').value;
+            }
+        }catch(e){
+            clientId = JSON.parse(sessionStorage.getItem('user')).id.toString();
+        }
         const client = {
             "clientId": clientId
         }
@@ -20,7 +27,11 @@ class ChangeClientModule {
                         document.getElementById('client_Number').value = response.client.number;
                         document.getElementById('client_Money').value = response.client.money;
                         document.getElementById('client_Login').value = response.client.login;
-                        document.getElementById('selectLevel').value = response.client.level;
+                        try{
+                            document.getElementById('selectLevel').value = response.client.level;   
+                        }catch(e){
+                            
+                        }
                     }
         })
     }
@@ -32,7 +43,7 @@ class ChangeClientModule {
         document.getElementById('client_Money').value = "";
         document.getElementById('client_Password').value = "";
         document.getElementById('client_Login').value = "";
-        document.getElementById('client_Level').value = "";
+        document.getElementById('selectLevel').value = "";
     }
     edit(){
         const clientName_edit = document.getElementById('client_Name').value;
@@ -41,8 +52,18 @@ class ChangeClientModule {
         const clientMoney_edit = document.getElementById('client_Money').value;
         const clientLogin_edit = document.getElementById('client_Login').value;
         const clientPassword_edit = document.getElementById('client_Password').value;
-        const clientLevel_edit = document.getElementById('selectLevel').value;
-        const clientId_edit = document.getElementById('selectClient').value;
+        let clientLevel_edit = '';
+        let clientId_edit;
+        let try_myself = '0';
+        try{
+            if(document.getElementById('selectClient').value !== ''){
+                 clientId_edit = document.getElementById('selectClient').value;
+                clientLevel_edit = document.getElementById('selectLevel').value;
+            }
+        }catch(e){
+            clientId_edit = JSON.parse(sessionStorage.getItem('user')).id.toString();
+            try_myself = '1';
+        }
         const clientEdit = {
             'clientName_edit': clientName_edit,
             'clientSurname_edit': clientSurname_edit,
@@ -52,6 +73,7 @@ class ChangeClientModule {
             'clientPassword_edit': clientPassword_edit,
             'clientLevel_edit': clientLevel_edit,
             'clientId_edit': clientId_edit,
+            'try_myself': try_myself,
         }
         let promise = fetch("editClient", {
             method: "POST",
@@ -75,7 +97,9 @@ class ChangeClientModule {
                     }
                     if(response.status){
                         document.getElementById('info').innerHTML = "SUCCESSFUL!";
-                        clientOptionsModule.getClientOptions();
+                        if(response.insertOptionsTrue){
+                            clientOptionsModule.getClientOptions();
+                        }
                     }else{
                           if(!response.clientNameEdit){
                             document.getElementById('error_clientName').classList.remove('d-none');
@@ -99,6 +123,10 @@ class ChangeClientModule {
                                 document.getElementById('error_client_Login').innerHTML = "This login already exists";
                             }
                             document.getElementById('client_Login').classList.add('is-invalid');
+                        }
+                        else if(!response.clientLevelEdit){
+                            document.getElementById('error_selectLevel').classList.remove('d-none');
+                            document.getElementById('selectLevel').classList.add('is-invalid');
                         }
                     }
                     

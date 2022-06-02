@@ -38,6 +38,10 @@ class LoginModule {
                             document.getElementById('shoes_change').classList.add('d-none');
                             document.getElementById('earning').classList.add('d-none');
                         }
+                        if(response.user.level === "MANAGER"){
+//                            document.getElementById('edit_myself').classList.add('d-none');
+                            document.getElementById('clients_change').classList.add('d-none');
+                        }
                         document.getElementById('content').innerHTML = "";
                         document.getElementById('info').innerHTML = response.info;
                     }
