@@ -226,17 +226,17 @@ showRegisterForm(){
                    <div class="invalid-feedback d-none" id="error_shoeModell">Wrong shoeModell</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="number" step = "0.01" class="form-control" id="ShoePrice" placeholder="ShoePrice(dollars)">
-                  <label for="floatingInput">ShoePrice(dollars)</label>
-                   <div class="invalid-feedback d-none" id="error_ShoePrice">Wrong ShoePrice</div>
-            </div>
-            <div class="form-floating mb-3">
                   <input type="number" class="form-control" id="ShoeSize" placeholder="ShoeSize(european)">
                   <label for="floatingInput">ShoeSize(european)</label>
                    <div class="invalid-feedback d-none" id="error_ShoeSize">Wrong ShoeSize</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="ShoeCount" placeholder="ShoeCount(in pairs)">
+                  <input type="number" step = "0.01" class="form-control" id="ShoePrice" placeholder="ShoePrice(dollars)">
+                  <label for="floatingInput">ShoePrice(dollars)</label>
+                   <div class="invalid-feedback d-none" id="error_ShoePrice">Wrong ShoePrice</div>
+            </div>
+            <div class="form-floating mb-3">
+                  <input type="number" class="form-control" id="ShoeCount" placeholder="ShoeCount(in pairs)">
                   <label for="floatingInput">ShoeCount(in pairs)</label>
                    <div class="invalid-feedback d-none" id="error_ShoeCount">Wrong ShoeCount</div>
             </div>

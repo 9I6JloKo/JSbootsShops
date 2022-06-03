@@ -176,10 +176,10 @@ public class ClientServlet extends HttpServlet {
                     clientName = jo.getString("clientName_edit", "");
                     clientSurname = jo.getString("clientSurname_edit", "");
                     clientNumber = jo.getString("clientNumber_edit", "");
-                    clientPassword = jo.getString("clientPassword_edit", "");
                     lengthNumber = clientNumber.length();
                     clientMoney = new BigDecimal(jo.getString("clientMoney_edit", null));
                     scaleMoney = new BigDecimal(jo.getString("clientMoney_edit", "")).scale();
+                    clientPassword = jo.getString("clientPassword_edit", "");
                     PasswordProtected pp = new PasswordProtected();
                     String salt = pp.getSalt();
                     if(clientEditExists != null){
@@ -234,6 +234,11 @@ public class ClientServlet extends HttpServlet {
                     }else{
                         job.add("clientNumberEdit", true);
                     }
+                    if(scaleMoney > 2 || scaleMoney < 0 || clientMoney.compareTo(new BigDecimal(0)) < 0 || clientMoney == null){
+                        job.add("clientMoneyEdit", false);
+                    }else{
+                        job.add("clientMoneyEdit", true);
+                    }
                     if("".equals(clientLogin)){
                         job.add("clientLoginEdit", false);
                         job.add("clientLoginEdit_text", "Wrong login");
@@ -242,11 +247,6 @@ public class ClientServlet extends HttpServlet {
                         job.add("clientLoginEditText", true);
                     }else{
                         job.add("clientLoginEdit", true);
-                    }
-                    if(scaleMoney > 2 || scaleMoney < 0 || clientMoney.compareTo(new BigDecimal(0)) < 0 || clientMoney == null){
-                        job.add("clientMoneyEdit", false);
-                    }else{
-                        job.add("clientMoneyEdit", true);
                     }
                     if(!"1".equals(tryMyself)){
                         if("".equals(clientLevelEdit)){

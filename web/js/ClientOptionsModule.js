@@ -17,9 +17,15 @@ getClientOptions(){
                         option.value = '';
                         clientSelect.add(option);
                         const clientId = JSON.parse(sessionStorage.getItem('user')).id;
-                        console.log(clientId);
+                        let minId= response.options[0].id;
                         for(let i = 0; i < response.options.length; i++){
-                            if((clientId-2) !== i){
+                            if(response.options[i].id < minId){
+                                minId = response.options[i].id;
+                            }
+                        }
+                        console.log(minId);
+                        for(let i = 0; i < response.options.length; i++){
+                            if((clientId-minId) !== i){
                                 option = document.createElement('option');
                                 option.text = response.options[i].firstname + ' ' + response.options[i].lastname + '; Number: ' + response.options[i].number + '; Money: ' + response.options[i].money + '$; Login: ' + response.options[i].login + '; Password: ' + response.options[i].password + '; Level: ' + response.options[i].level;
                                 option.value = response.options[i].id;

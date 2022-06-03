@@ -27,7 +27,7 @@ public class History implements Serializable{
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar dateOfBuying;
     private Product product;
-    private BigDecimal productPrice;
+    private String productPrice;
     private Client client;
 
     public Long getId() {
@@ -56,11 +56,12 @@ public class History implements Serializable{
     }
 
     public BigDecimal getProductPrice() {
-        return productPrice;
+        
+        return new BigDecimal(productPrice);
     }
 
     public void setProductPrice(BigDecimal productPrice) {
-        this.productPrice = productPrice;
+        this.productPrice = productPrice.toString();
     }
 
     public Client getClient() {

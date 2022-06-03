@@ -5,6 +5,7 @@
  */
 package entities;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,9 +20,9 @@ public class Product implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String modell;
-    private Double size;
+    private String size;
     private String bywho;
-    private Double price;
+    private String price;
     private int piece;
     private int maxPiece;
     
@@ -45,32 +46,32 @@ public class Product implements Serializable{
         return modell;
     }
 
-    public Double getSize() {
-        return size;
+    public BigDecimal getSize() {
+        return new BigDecimal(size);
     }
 
     public String getBywho() {
         return bywho;
     }
 
-    public Double getPrice() {
-        return price;
+    public BigDecimal getPrice() {
+        return new BigDecimal(price);
     }
 
     public void setModell(String modell) {
         this.modell = modell;
     }
 
-    public void setSize(Double size) {
-        this.size = size;
+    public void setSize(BigDecimal size) {
+        this.size = size.toString();
     }
 
     public void setBywho(String bywho) {
         this.bywho = bywho;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPrice(BigDecimal price) {
+        this.price = price.toString();
     }
 
     public void setMaxPiece(int maxPiece) {

@@ -76,7 +76,7 @@ window.addEventListener("load", e => {
         document.getElementById('clients_change').classList.add('d-none');
     }
     document.getElementById('content').innerHTML = "";
-    document.getElementById('info').innerHTML = 'С возвращением, ' + JSON.parse(sessionStorage.getItem('user')).firstname.toString() + '!';
+    document.getElementById('info').innerHTML = 'Welcome back, ' + JSON.parse(sessionStorage.getItem('user')).firstname.toString() + '!';
     }
 });
 function selectItemMenu(element_to_change){

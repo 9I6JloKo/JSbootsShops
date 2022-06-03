@@ -34,7 +34,7 @@ import jsontools.ClientJsonBuilder;
  *
  * @author pupil
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {
+@WebServlet(name = "LoginServlet", loadOnStartup = 0, urlPatterns = {
     "/login",
     "/logout",
     "/BuyShoe",
@@ -60,9 +60,6 @@ public class LoginServlet extends HttpServlet {
         client.setSalt(salt);
         client.setPassword(pp.getProtectedPassword("12345", salt));
         clientFacade.create(client);
-        if(session != null){
-            
-        }
     }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -124,7 +121,7 @@ public class LoginServlet extends HttpServlet {
                     Product product = productFacade.find(productId);
                     Client client = (Client) session.getAttribute("authUser");
                     client = clientFacade.find(client.getId());
-                    BigDecimal pp = BigDecimal.valueOf(product.getPrice());
+                    BigDecimal pp = product.getPrice();
                     if(client.getClientMoney().compareTo(pp) >= 0 && product.getPiece() >= 1){
                         client.setClientMoney(client.getClientMoney().subtract(pp));
                         product.setPiece(product.getPiece()-1);
@@ -133,7 +130,7 @@ public class LoginServlet extends HttpServlet {
                         history.setClient(client);
                         Calendar c = new GregorianCalendar();
                         history.setDateOfBuying(c.getTime());
-                        history.setProductPrice(new BigDecimal(product.getPrice()));
+                        history.setProductPrice(product.getPrice());
                         historyFacade.create(history);
                         clientFacade.edit(client);
                         productFacade.edit(product);
