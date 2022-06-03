@@ -279,17 +279,19 @@ showRegisterForm(){
                     <option value = "7">July</option>
                     <option value = "8">August</option>
                     <option value = "9">September</option>
-                    <option value = "10">Oktober</option>
+                    <option value = "10">October</option>
                     <option value = "11">November</option>
                     <option value = "12">December</option>
+                     <option value = "13">Shop earning</option>
                 </select>
             </div>
             <div class="form-group">
-            <fieldset>
+<!--            <fieldset>
               <label class="form-label mt-4" for="readOnlyInput">Earning</label>
-              <input class="form-control" id="earning" type="text" value = "" placeholder="Earning for this period of time is..." readonly="">
-            </fieldset>
-          </div>
+              <input class="form-control" id="client_Earning" type="text" value = "" placeholder="Earning for this period of time is..." readonly="">
+            </fieldset> 
+          </div> -->
+                    <p id="client_Earning" style = "border: 2px solid lightgrey; width: 100%; margin-top: 30px; border-radius: 5px; padding: 5px 15px; text-align:center; text-transform:uppercase; letter-spacing: 5px">Earning</p>
             `
         const selectMonth = document.getElementById('selectMonth');
         selectMonth.addEventListener('change', e => {

@@ -23,7 +23,7 @@ public class Client implements Serializable{
     private String clientName;
     private String clientSurname;
     private String clientNumber;
-    private BigDecimal clientMoney;
+    private String clientMoney;
     private String login;
     private String password;
     private String level;
@@ -73,7 +73,7 @@ public class Client implements Serializable{
     }
 
     public BigDecimal getClientMoney() {
-        return clientMoney;
+        return new BigDecimal(this.clientMoney);
     }
 
     public void setClientName(String clientName) {
@@ -89,7 +89,7 @@ public class Client implements Serializable{
     }
 
     public void setClientMoney(BigDecimal clientMoney) {
-        this.clientMoney = clientMoney;
+        this.clientMoney = clientMoney.toString();
     }
     
     public String getLogin() {

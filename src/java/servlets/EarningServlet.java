@@ -48,7 +48,7 @@ public class EarningServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         JsonObjectBuilder job = Json.createObjectBuilder();
         String path = request.getServletPath();
-        String earning_sum_final = "";
+        String earning_sum_final = "0";
         switch(path){
                 case "/calculateEarning":
                     try{
@@ -59,6 +59,16 @@ public class EarningServlet extends HttpServlet {
                         Calendar calendar = new GregorianCalendar();
                         BigDecimal earning = new BigDecimal(0);
                         BigDecimal earning_sum = null;
+                        if(monthId == 13){
+                            for(int i = 0; i < histories.size(); i++){
+                                earning_sum = earning.add(histories.get(i).getProductPrice());
+                                earning = earning_sum;
+                            }
+                            earning_sum_final = earning_sum.toString();
+                            job.add("earning", earning_sum_final);
+                            int i = 5/0;
+                            
+                        }
                         for(int i = 0; i < histories.size(); i++){
                             if(histories.get(i).getDateOfBuying().getTime().getMonth() == (monthId-1) && histories.get(i).getDateOfBuying().get(Calendar.YEAR) == calendar.get(Calendar.YEAR)){
                                 earning_sum = earning.add(histories.get(i).getProductPrice());
@@ -69,7 +79,6 @@ public class EarningServlet extends HttpServlet {
                         job.add("earning", earning_sum_final);
                     }
                     catch(Exception e){
-                        earning_sum_final = "0";
                     }
                     try (PrintWriter out = response.getWriter()) {
                         out.println(job.build().toString());

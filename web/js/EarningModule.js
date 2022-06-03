@@ -14,7 +14,10 @@ class EarningModule {
         })
         promise.then(response => response.json())
                 .then(response => {
-                    document.getElementById('earning').value = response.earning;
+                    if(response.earning === undefined){
+                        response.earning = 0;
+                    }
+                    document.getElementById('client_Earning').innerHTML = response.earning + '$';
         })
     }
 }

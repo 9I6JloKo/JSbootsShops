@@ -4,7 +4,7 @@ class ChangeClientModule {
         let clientId;
         try{
             if(document.getElementById('selectClient').value !== ''){
-                 clientId = document.getElementById('selectClient').value;
+                clientId = document.getElementById('selectClient').value;
             }
         }catch(e){
             clientId = JSON.parse(sessionStorage.getItem('user')).id.toString();

@@ -58,6 +58,7 @@ public class ShoeServlet extends HttpServlet {
         int shoeCount = 0;
         Double shoeSize = null;
         request.setCharacterEncoding("UTF-8");
+        int shoePriceScale = 3;
         JsonObjectBuilder job = Json.createObjectBuilder();
         switch(path){
             case "/sendShoe":
@@ -68,8 +69,9 @@ public class ShoeServlet extends HttpServlet {
                     shoeModell = jo.getString("ShoeModell", "");
                     shoeSize = Double.parseDouble(jo.getString("ShoeSize", ""));
                     shoePrice = Double.parseDouble(jo.getString("ShoePrice", ""));
+                    shoePriceScale = new BigDecimal(jo.getString("ShoePrice", "")).scale();
                     shoeCount = Integer.parseInt(jo.getString("ShoeCount", ""));
-                    if(shoePrice >= 0.01 && shoePrice <= 300 && shoeCount >= 1 && shoeCount <= 300 && shoeSize >= 25 && shoeSize <= 55) {
+                    if(shoePrice >= 0.01 && shoePrice <= 300 && shoeCount >= 1 && shoeCount <= 300 && shoeSize >= 25 && shoeSize <= 55 && shoePriceScale <= 2) {
                         Product product = new Product();
                         product.setBywho(shoeFirm);
                         product.setModell(shoeModell);
@@ -99,7 +101,7 @@ public class ShoeServlet extends HttpServlet {
                     }else{
                         job.add("shoeSize", true);
                     }
-                    if(shoePrice == null || shoePrice < 0.01 || shoePrice > 300){
+                    if(shoePrice == null || shoePrice < 0.01 || shoePrice > 300 || shoePriceScale > 2 || shoePriceScale < 0){
                         job.add("shoePrice", false);
                     }else{
                         job.add("shoePrice", true);
@@ -146,9 +148,11 @@ public class ShoeServlet extends HttpServlet {
                 shoeSize = Double.parseDouble(jo.getString("shoeSize_edit", ""));
                 shoePrice = Double.parseDouble(jo.getString("shoePrice_edit", ""));
                 shoeCount = Integer.parseInt(jo.getString("shoeCount_edit", ""));
+                shoePrice = Double.parseDouble(jo.getString("shoePrice_edit", ""));
+                shoePriceScale = new BigDecimal(jo.getString("shoePrice_edit", "")).scale();
                 Product shoe = productFacade.find(shoeIdEdit);
                 try{
-                    if(shoePrice >= 0.01 && shoePrice <= 300 && shoeCount >= 1 && shoeCount <= 300 && shoeSize >= 25 && shoeSize <= 55){
+                    if(shoePrice >= 0.01 && shoePrice <= 300 && shoeCount >= 1 && shoeCount <= 300 && shoeSize >= 25 && shoeSize <= 55  && shoePriceScale <= 2){
                         shoe.setBywho(shoeFirm);
                         shoe.setModell(shoeModell);
                         shoe.setPrice(shoePrice);
@@ -178,7 +182,7 @@ public class ShoeServlet extends HttpServlet {
                     }else{
                         job.add("shoeSizeEdit", true);
                     }
-                    if(shoePrice == null || shoePrice < 0.01 || shoePrice > 300){
+                    if(shoePrice == null || shoePrice < 0.01 || shoePrice > 300 || shoePriceScale > 2 || shoePriceScale < 0){
                         job.add("shoePriceEdit", false);
                     }else{
                         job.add("shoePriceEdit", true);

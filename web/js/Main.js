@@ -58,11 +58,27 @@ editMyself.addEventListener("click", e => {
     selectItemMenu(editMyself);
     viewModule.showEditMyself();
 });
-//const dropdown = document.getElementById("dropdown");
-//dropdown.addEventListener("click", e => {
-//    e.preventDefault();
-//    selectItemMenu(dropdown);
-//});
+window.addEventListener("load", e => {
+    e.preventDefault();
+    if(null !== sessionStorage.getItem('user')){
+    document.getElementById('navbar').classList.remove('d-none');
+    document.getElementById('login_button').classList.add('d-none');
+    document.getElementById('logout_button').classList.remove('d-none');
+    if(JSON.parse(sessionStorage.getItem('user')).level.toString() === "USER"){
+//                            document.getElementById('edit_myself').classList.add('d-none');
+        document.getElementById('shoes').classList.add('d-none');
+        document.getElementById('clients_change').classList.add('d-none');
+        document.getElementById('shoes_change').classList.add('d-none');
+        document.getElementById('earning').classList.add('d-none');
+    }
+    if(JSON.parse(sessionStorage.getItem('user')).level.toString() === "MANAGER"){
+//                            document.getElementById('edit_myself').classList.add('d-none');
+        document.getElementById('clients_change').classList.add('d-none');
+    }
+    document.getElementById('content').innerHTML = "";
+    document.getElementById('info').innerHTML = 'С возвращением, ' + JSON.parse(sessionStorage.getItem('user')).firstname.toString() + '!';
+    }
+});
 function selectItemMenu(element_to_change){
     for(let i = 0; i < navbar_massive.length; i++){
         if(navbar_massive[i].classList.contains("active")){
