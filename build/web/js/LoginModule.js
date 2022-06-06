@@ -44,6 +44,9 @@ class LoginModule {
                         }
                         document.getElementById('content').innerHTML = "";
                         document.getElementById('info').innerHTML = response.info;
+                        if(!document.getElementById('content').classList.contains('d-none')){
+                            document.getElementById('content').classList.add('d-none');
+                        }
                     }
                })
                .catch(error =>{
@@ -78,6 +81,9 @@ class LoginModule {
                     logoutButton.classList.add('d-none');
                     loginButton.classList.remove('d-none');
                     sessionStorage.removeItem('user');
+                    if(!document.getElementById('content').classList.contains('d-none')){
+                            document.getElementById('content').classList.add('d-none');
+                    }
                })
                .catch(error =>{
                     document.getElementById('info').innerHTML = "Ошибка сервера: "+error;

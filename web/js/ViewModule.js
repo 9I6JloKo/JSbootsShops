@@ -10,6 +10,9 @@ import {earningModule} from "./EarningModule.js"
 class ViewModule {
     showLoginForm() {
         const content = document.getElementById("content");
+        if(content.classList.contains('d-none')){
+            content.classList.remove('d-none');
+        }
         content.innerHTML = `
             <legend style="margin-bottom: 20px">Enter to the system</legend>
               <div class="form-floating mb-3">
@@ -38,6 +41,7 @@ class ViewModule {
         });
     }
 showRegisterForm(){
+    
         document.getElementById('content').innerHTML = `
             <legend style="margin-bottom: 20px">Registration in the system</legend>
             <div class="form-floating mb-3">
@@ -74,6 +78,9 @@ showRegisterForm(){
                 <button id = "register_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Create</button>
             </div>
             `;
+        if(document.getElementById('content').classList.contains('d-none')){
+            document.getElementById('content').classList.remove('d-none');
+        }
         const registerSubmit = document.getElementById("register_submit");
         registerSubmit.addEventListener('click', e => {
             e.preventDefault();
@@ -81,6 +88,9 @@ showRegisterForm(){
         });
     }
     showShoeForm(){
+        if(document.getElementById('content').classList.contains('d-none')){
+            document.getElementById('content').classList.remove('d-none');
+        }
         document.getElementById('content').innerHTML = `
             <legend style="margin-bottom: 20px">SHOE ADDING</legend>
             <div class="form-floating mb-3">
@@ -119,6 +129,9 @@ showRegisterForm(){
         });
     }
     showPurchaseForm(){
+        if(document.getElementById('content').classList.contains('d-none')){
+            document.getElementById('content').classList.remove('d-none');
+        }
         document.getElementById('content').innerHTML = `
             <legend style="margin-bottom: 20px">PURCHASE</legend>
             <div class="form-group">
@@ -138,6 +151,9 @@ showRegisterForm(){
         shoeOptionsModule.getShoeOptions();
     }
     showChangeClientForm(){
+        if(document.getElementById('content').classList.contains('d-none')){
+            document.getElementById('content').classList.remove('d-none');
+        }
         document.getElementById('content').innerHTML = `
             <div class="form-group" style="margin-bottom:20px">
                 <label for="exampleSelect1" class="form-label mt-4">Clients</label>
@@ -208,6 +224,9 @@ showRegisterForm(){
         clientOptionsModule.getClientOptions();
     }
     showChangeShoesForm(){
+        if(document.getElementById('content').classList.contains('d-none')){
+            document.getElementById('content').classList.remove('d-none');
+        }
         document.getElementById('content').innerHTML = `
             <div class="form-group">
                 <label for="exampleSelect1" class="form-label mt-4">Shoes</label>
@@ -265,6 +284,9 @@ showRegisterForm(){
         shoeOptionsModule.getShoeOptions();
     }
     showEarning(){
+        if(document.getElementById('content').classList.contains('d-none')){
+            document.getElementById('content').classList.remove('d-none');
+        }
         document.getElementById('content').innerHTML = `
             <div class="form-group">
                 <label for="exampleSelect1" class="form-label mt-4">Months</label>
@@ -304,6 +326,9 @@ showRegisterForm(){
         })
     }
     showEditMyself(){
+        if(document.getElementById('content').classList.contains('d-none')){
+            document.getElementById('content').classList.remove('d-none');
+        }
         document.getElementById('content').innerHTML = `
             <legend style="margin-bottom: 20px">Editing myself</legend>
             <div class="form-floating mb-3">
