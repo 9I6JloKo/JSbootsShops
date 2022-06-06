@@ -17,7 +17,7 @@ class EarningModule {
                     if(response.earning === undefined){
                         response.earning = 0;
                     }
-                    document.getElementById('client_Earning').innerHTML = response.earning + '$';
+                    document.getElementById('client_Earning').innerHTML = response.earning + '€';
         })
     }
 }

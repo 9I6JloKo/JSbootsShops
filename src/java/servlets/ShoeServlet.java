@@ -122,6 +122,8 @@ public class ShoeServlet extends HttpServlet {
                 if(!products.isEmpty()){
                     job.add("status", true)
                     .add("options", sjb.getShoesJsonArray(products));
+                }else{
+                    job.add("status", false);
                 }
                 try (PrintWriter out = response.getWriter()) {
                     out.println(job.build().toString());

@@ -38,6 +38,7 @@ import jsontools.ClientJsonBuilder;
     "/login",
     "/logout",
     "/BuyShoe",
+    "/getUser",
 })
 public class LoginServlet extends HttpServlet {
     PasswordProtected pp = new PasswordProtected();
@@ -94,7 +95,7 @@ public class LoginServlet extends HttpServlet {
                 else {
                     session = request.getSession(true);
                     session.setAttribute("authUser", authUser);
-                    job.add("info", "Йоу, "+authUser.getClientName()+"!")
+                    job.add("info", "Jou, "+authUser.getClientName()+"!")
                        .add("auth",true)
                        .add("user", new ClientJsonBuilder().getClientJsonObject(authUser));
                     try (PrintWriter out = response.getWriter()) {
@@ -149,6 +150,15 @@ public class LoginServlet extends HttpServlet {
                     job.add("status", false)
                         .add("info", "Choose shoes you want, please");
                 }
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(job.build().toString());
+                }
+                break;
+            case "/getUser":
+                jsonReader = Json.createReader(request.getReader());
+                jsonObject = jsonReader.readObject();
+                long userId =  Long.parseLong(jsonObject.getString("userId", ""));
+                job.add("user", new ClientJsonBuilder().getClientJsonObject(clientFacade.find(userId)));
                 try (PrintWriter out = response.getWriter()) {
                     out.println(job.build().toString());
                 }

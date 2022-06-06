@@ -61,22 +61,24 @@ editMyself.addEventListener("click", e => {
 window.addEventListener("load", e => {
     e.preventDefault();
     if(null !== sessionStorage.getItem('user')){
-    document.getElementById('navbar').classList.remove('d-none');
-    document.getElementById('login_button').classList.add('d-none');
-    document.getElementById('logout_button').classList.remove('d-none');
-    if(JSON.parse(sessionStorage.getItem('user')).level.toString() === "USER"){
-//                            document.getElementById('edit_myself').classList.add('d-none');
-        document.getElementById('shoes').classList.add('d-none');
-        document.getElementById('clients_change').classList.add('d-none');
-        document.getElementById('shoes_change').classList.add('d-none');
-        document.getElementById('earning').classList.add('d-none');
-    }
-    if(JSON.parse(sessionStorage.getItem('user')).level.toString() === "MANAGER"){
-//                            document.getElementById('edit_myself').classList.add('d-none');
-        document.getElementById('clients_change').classList.add('d-none');
-    }
-    document.getElementById('content').innerHTML = "";
-    document.getElementById('info').innerHTML = 'Welcome back, ' + JSON.parse(sessionStorage.getItem('user')).firstname.toString() + '!';
+        document.getElementById('navbar').classList.remove('d-none');
+        document.getElementById('login_button').classList.add('d-none');
+        document.getElementById('logout_button').classList.remove('d-none');
+        if(JSON.parse(sessionStorage.getItem('user')).level.toString() === "USER"){
+    //                            document.getElementById('edit_myself').classList.add('d-none');
+            document.getElementById('shoes').classList.add('d-none');
+            document.getElementById('clients_change').classList.add('d-none');
+            document.getElementById('shoes_change').classList.add('d-none');
+            document.getElementById('earning').classList.add('d-none');
+        }
+        if(JSON.parse(sessionStorage.getItem('user')).level.toString() === "MANAGER"){
+    //                            document.getElementById('edit_myself').classList.add('d-none');
+            document.getElementById('clients_change').classList.add('d-none');
+        }
+        document.getElementById('content').innerHTML = "";
+        document.getElementById('info').innerHTML = 'Welcome back, ' + JSON.parse(sessionStorage.getItem('user')).firstname.toString() + '!';
+//        document.getElementById('clientMoneyShowAmount').classList.remove('d-none');
+//        document.getElementById('clientMoneyShowAmount').innerHTML = 'Wallet: ' + JSON.parse(sessionStorage.getItem('user')).money.toString()+ '€';
     }
 });
 function selectItemMenu(element_to_change){

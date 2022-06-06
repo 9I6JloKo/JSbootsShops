@@ -44,6 +44,7 @@ class LoginModule {
                         }
                         document.getElementById('content').innerHTML = "";
                         document.getElementById('info').innerHTML = response.info;
+                        document.getElementById('content').style.display = "none";
                     }
                })
                .catch(error =>{

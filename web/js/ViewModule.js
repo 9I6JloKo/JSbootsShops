@@ -24,8 +24,8 @@ class ViewModule {
               <div style= "display: flex; flex-direction: column; justify-content: center">
                 <button id = "login_submit" class="btn btn-primary" style="margin-top: 30px">Enter</button>
                 <button id = "register_submit" class="btn btn-primary" style="margin-top: 30px; float:left">REGISTRATION</button>
-            </div>
-                            `;
+            </div>`;
+        content.style.display = "block";
         const loginSubmit = document.getElementById("login_submit");
         loginSubmit.addEventListener('click', e => {
             e.preventDefault()
@@ -57,7 +57,7 @@ showRegisterForm(){
             </div>
             <div class="form-floating mb-3">
                   <input type="number" step = "0.01" class="form-control" id="client_Money" placeholder="client_Money">
-                  <label for="floatingInput">Money(dollars)</label>
+                  <label for="floatingInput">Money(euros)</label>
                    <div class="invalid-feedback d-none" id="error_client_Money">Wrong money</div>
             </div>
             <div class="form-floating mb-3">
@@ -74,6 +74,7 @@ showRegisterForm(){
                 <button id = "register_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Create</button>
             </div>
             `;
+        document.getElementById('content').style.display = "block";
         const registerSubmit = document.getElementById("register_submit");
         registerSubmit.addEventListener('click', e => {
             e.preventDefault();
@@ -100,7 +101,7 @@ showRegisterForm(){
             </div>
             <div class="form-floating mb-3">
                   <input type="number" step = "0.01" class="form-control" id="ShoePrice" placeholder="ShoePrice(dollars)">
-                  <label for="floatingInput">ShoePrice(dollars)</label>
+                  <label for="floatingInput">ShoePrice(euros)</label>
                    <div class="invalid-feedback d-none" id="error_ShoePrice">Wrong ShoePrice</div>
             </div>
             <div class="form-floating mb-3">
@@ -112,6 +113,7 @@ showRegisterForm(){
                 <button id = "shoe_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">add</button>
             </div>
             `;
+        document.getElementById('content').style.display = "block";
         const shoeSubmit = document.getElementById("shoe_submit");
         shoeSubmit.addEventListener('click', e => {
             e.preventDefault();
@@ -130,6 +132,7 @@ showRegisterForm(){
                 <button id = "purchase_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Buy</button>
             </div>
             `
+        document.getElementById('content').style.display = "block";
         const purchaseSubmit = document.getElementById("purchase_submit");
         purchaseSubmit.addEventListener('click', e => {
             e.preventDefault();
@@ -138,13 +141,14 @@ showRegisterForm(){
         shoeOptionsModule.getShoeOptions();
     }
     showChangeClientForm(){
+        document.getElementById('content').style.display = "block";
         document.getElementById('content').innerHTML = `
             <div class="form-group" style="margin-bottom:20px">
                 <label for="exampleSelect1" class="form-label mt-4">Clients</label>
                 <select class="form-select" id="selectClient">
                 </select>
             </div>
-            <legend style="margin-bottom: 20px">Editing</legend>
+            <legend style="margin-bottom: 20px">EDITING</legend>
             <div class="form-floating mb-3">
                   <input type="text" class="form-control" id="client_Name" placeholder="clientName">
                   <label for="floatingInput">Client name</label>
@@ -162,7 +166,7 @@ showRegisterForm(){
             </div>
             <div class="form-floating mb-3">
                   <input type="number" step = "0.01" class="form-control" id="client_Money" placeholder="client_Money">
-                  <label for="floatingInput">Money(dollars)</label>
+                  <label for="floatingInput">Money(euros)</label>
                    <div class="invalid-feedback d-none" id="error_client_Money">Wrong money</div>
             </div>
             <div class="form-floating mb-3">
@@ -214,7 +218,7 @@ showRegisterForm(){
                 <select class="form-select" id="selectShoe">
                 </select>
             </div>
-            <legend style="margin-bottom: 20px; margin-top: 20px">Editing</legend>
+            <legend style="margin-bottom: 20px; margin-top: 20px">EDITING</legend>
             <div class="form-floating mb-3">
                   <input type="text" class="form-control" id="shoeFirm" placeholder="shoeFirm">
                   <label for="floatingInput">shoeFirm</label>
@@ -232,7 +236,7 @@ showRegisterForm(){
             </div>
             <div class="form-floating mb-3">
                   <input type="number" step = "0.01" class="form-control" id="ShoePrice" placeholder="ShoePrice(dollars)">
-                  <label for="floatingInput">ShoePrice(dollars)</label>
+                  <label for="floatingInput">ShoePrice(euros)</label>
                    <div class="invalid-feedback d-none" id="error_ShoePrice">Wrong ShoePrice</div>
             </div>
             <div class="form-floating mb-3">
@@ -244,6 +248,7 @@ showRegisterForm(){
                 <button id = "change_submit_Shoe" class="btn btn-primary" style="margin-top: 30px; width:100%">Change</button>
             </div>
             `;
+        document.getElementById('content').style.display = "block";
         const selectShoe = document.getElementById('selectShoe');
         selectShoe.addEventListener('change', e => {
             e.preventDefault();
@@ -266,6 +271,7 @@ showRegisterForm(){
     }
     showEarning(){
         document.getElementById('content').innerHTML = `
+        <legend style="margin-bottom: 20px">EARNINGS</legend>
             <div class="form-group">
                 <label for="exampleSelect1" class="form-label mt-4">Months</label>
                 <select class="form-select" id="selectMonth">
@@ -293,6 +299,7 @@ showRegisterForm(){
           </div> -->
                     <p id="client_Earning" style = "border: 2px solid lightgrey; width: 100%; margin-top: 30px; border-radius: 5px; padding: 5px 15px; text-align:center; text-transform:uppercase; letter-spacing: 5px">Earning</p>
             `
+        document.getElementById('content').style.display = "block";
         const selectMonth = document.getElementById('selectMonth');
         selectMonth.addEventListener('change', e => {
             e.preventDefault();
@@ -305,7 +312,7 @@ showRegisterForm(){
     }
     showEditMyself(){
         document.getElementById('content').innerHTML = `
-            <legend style="margin-bottom: 20px">Editing myself</legend>
+            <legend style="margin-bottom: 20px">EDITING MYSELF</legend>
             <div class="form-floating mb-3">
                   <input type="text" class="form-control" id="client_Name" placeholder="clientName">
                   <label for="floatingInput">Name</label>
@@ -339,6 +346,7 @@ showRegisterForm(){
                 <button id = "change_submit_client" class="btn btn-primary" style="margin-top: 30px; width:100%">Change</button>
             </div>
             `;
+        document.getElementById('content').style.display = "block";
         changeClientModule.fillInputs();
         const changeSubmitClient = document.getElementById("change_submit_client");
         changeSubmitClient.addEventListener('click', e => {
