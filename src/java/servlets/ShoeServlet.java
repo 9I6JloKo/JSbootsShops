@@ -253,11 +253,6 @@ public class ShoeServlet extends HttpServlet {
                     maybeFile.mkdirs();
                     Files.copy(f.toPath(), maybeFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 }
-//                File fileCopy = new File(pathToCover);
-//                try(InputStream fileContent = file.listFiles();
-//                    Files.copy(fileContent, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-//                }
-//                File[] listOfFiles = file.listFiles();
             }
         }
         return pathToCover2;

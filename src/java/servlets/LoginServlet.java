@@ -11,9 +11,14 @@ import entities.History;
 import entities.Product;
 import facades.HistoryFacade;
 import facades.ProductFacade;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -48,6 +53,21 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
+        try{
+            String uploadDir = this.getClass().getResource("").toString().replace("file:/", "").replace("build/web/WEB-INF/classes/servlets/", "").replace("/", "\\"); 
+            String uploadDir2 = "images";
+            Path path = Paths.get((uploadDir + "\\images"));
+            if(Files.exists(path)){
+                File folder = new File(path.toString());
+                File[] listOfFiles = folder.listFiles();
+                for (File f : listOfFiles) {
+                    File maybeFile = new File(uploadDir + "\\build\\web\\images" + File.separator + f.getName());
+                    maybeFile.mkdirs();
+                    Files.copy(f.toPath(), maybeFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                }
+            }
+        }catch(Exception e){
+        }
         if(clientFacade.count()>0) return;
         Client client = new Client();
         client.setClientName("Maksim");
