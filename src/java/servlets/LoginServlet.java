@@ -38,7 +38,6 @@ import jsontools.ClientJsonBuilder;
     "/login",
     "/logout",
     "/BuyShoe",
-    "/fillInputsShoe",
 })
 public class LoginServlet extends HttpServlet {
     PasswordProtected pp = new PasswordProtected();
@@ -153,23 +152,6 @@ public class LoginServlet extends HttpServlet {
                     out.println(job.build().toString());
                 }
                 break;
-            case "/fillInputsShoe":
-                try{
-                    JsonReader jr = Json.createReader(request.getReader());
-                    JsonObject jo = jr.readObject();
-                    long productId = Long.parseLong(jo.getString("shoeId", ""));
-                    Product product = productFacade.find(productId);
-                    String pathToFile = product.getPathToFile();
-                    pathToFile = pathToFile.replace("\\", "/");
-                    job.add("pathToFile", pathToFile);
-                    job.add("status", true);
-                }catch(Exception e){
-                    job.add("status", false);
-                }
-                try (PrintWriter out = response.getWriter()) {
-                    out.println(job.build().toString());
-                }
-            break;
         }
     }
 

@@ -119,8 +119,8 @@ showRegisterForm(){
                    <div class="invalid-feedback d-none" id="error_ShoeCount">Wrong ShoeCount</div>
             </div>
             <div class="form-group">
-                  <input class="form-control" type="file" name= "ShoeFile" id="ShoeFile">
-                  <div class="invalid-feedback d-none" id="error_ShoeFile" accept="image/png, image/jpeg, image/jpg">Wrong ShoeFile</div>
+                  <input class="form-control" type="file" name= "ShoeFile" accept="image/png, image/jpeg, image/jpg" id="ShoeFile">
+                  <div class="invalid-feedback d-none" id="error_ShoeFile" >Wrong ShoeFile</div>
             </div>
              <div style= "display: flex; flex-direction: column; justify-content: center">
                 <button id = "shoe_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">add</button>
@@ -146,7 +146,7 @@ showRegisterForm(){
             <div style= "display: flex; flex-direction: column; justify-content: center">
                 <button id = "purchase_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Buy</button>
             </div>
-        <img id="imgShoe" src="" style="width: 300px;height: max-content;position:absolute;right:75%;top:50%;transform:translateX(-50%) translateY(-50%)">
+            <img id="imgShoe" src="" style="width: 300px;height: max-content;position:absolute;right:-100%;top:50%;transform:translateX(-50%) translateY(-50%); border-radius: 10px; outline: 2px solid black">
             `
         const purchaseSubmit = document.getElementById("purchase_submit");
         const selectShoe = document.getElementById("selectShoe");

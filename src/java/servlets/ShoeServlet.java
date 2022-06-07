@@ -13,6 +13,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.List;
@@ -40,11 +42,12 @@ import jsontools.ShoeJsonBuilder;
     "/getShoeOptions",
     "/editShoe",
     "/fillInputsShoes",
+    "/fillInputsPicture"
 })
 @MultipartConfig
 public class ShoeServlet extends HttpServlet {
-    private final String uploadDir = this.getClass().getResource("").toString().replace("/", "\\").replace("file:/", ""); 
-    private final String uploadDir2 = "\\WEB-INF\\classes\\servlets\\images";
+    private final String uploadDir = this.getClass().getResource("").toString().replace("file:/", "").replace("build/web/WEB-INF/classes/servlets/", "").replace("/", "\\"); 
+    private final String uploadDir2 = "images";
     @EJB ProductFacade productFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -157,6 +160,23 @@ public class ShoeServlet extends HttpServlet {
                     out.println(job.build().toString());
                 }   
             break;
+            case "/fillInputsPicture":
+                try{
+                    jr = Json.createReader(request.getReader());
+                    jo = jr.readObject();
+                    long productId = Long.parseLong(jo.getString("shoeId", ""));
+                    product = productFacade.find(productId);
+                    String pathToFile = product.getPathToFile();
+                    pathToFile = pathToFile.replace("\\", "/");
+                    job.add("pathToFile", pathToFile);
+                    job.add("status", true);
+                }catch(Exception e){
+                    job.add("status", false);
+                }
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(job.build().toString());
+                }
+            break;
             case "/editShoe":
                 jr = Json.createReader(request.getReader());
                 jo = jr.readObject();
@@ -217,12 +237,28 @@ public class ShoeServlet extends HttpServlet {
         }
     }
         private String getPathToCover(Part part) throws IOException {
-        String pathToCover = uploadDir + File.separator + getFileName(part);
+        String pathToCover = uploadDir + "\\images" + File.separator + getFileName(part);
         String pathToCover2 = uploadDir2 + File.separator + getFileName(part);
         File file = new File(pathToCover);
         file.mkdirs();
         try(InputStream fileContent = part.getInputStream()){
             Files.copy(fileContent, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            
+            Path path = Paths.get((uploadDir + "\\images"));
+            if(Files.exists(path)){
+                File folder = new File(path.toString());
+                File[] listOfFiles = folder.listFiles();
+                for (File f : listOfFiles) {
+                    File maybeFile = new File(uploadDir + "\\build\\web\\images" + File.separator + f.getName());
+                    maybeFile.mkdirs();
+                    Files.copy(f.toPath(), maybeFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                }
+//                File fileCopy = new File(pathToCover);
+//                try(InputStream fileContent = file.listFiles();
+//                    Files.copy(fileContent, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//                }
+//                File[] listOfFiles = file.listFiles();
+            }
         }
         return pathToCover2;
     }

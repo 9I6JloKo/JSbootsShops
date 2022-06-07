@@ -29,7 +29,7 @@ class PurchaseModule {
         const shoe = {
             "shoeId": shoeId
         }
-        let promise = fetch("fillInputsShoe",{
+        let promise = fetch("fillInputsPicture",{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset:utf8'
