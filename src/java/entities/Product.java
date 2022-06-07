@@ -25,9 +25,18 @@ public class Product implements Serializable{
     private String price;
     private int piece;
     private int maxPiece;
+    private String pathToFile;
     
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getPathToFile() {
+        return pathToFile;
+    }
+
+    public void setPathToFile(String pathToFile) {
+        this.pathToFile = pathToFile;
     }
 
     public Long getId() {

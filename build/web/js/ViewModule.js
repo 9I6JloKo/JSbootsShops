@@ -43,7 +43,7 @@ class ViewModule {
 showRegisterForm(){
     
         document.getElementById('content').innerHTML = `
-            <legend style="margin-bottom: 20px">Registration in the system</legend>
+            <form><legend style="margin-bottom: 20px">Registration in the system</legend>
             <div class="form-floating mb-3">
                   <input type="text" class="form-control" id="client_Name" placeholder="clientName">
                   <label for="floatingInput">Your name</label>
@@ -92,38 +92,42 @@ showRegisterForm(){
             document.getElementById('content').classList.remove('d-none');
         }
         document.getElementById('content').innerHTML = `
-            <legend style="margin-bottom: 20px">SHOE ADDING</legend>
+            <form id="shoeForm"><legend style="margin-bottom: 20px">SHOE ADDING</legend>
             <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="ShoeFirm" placeholder="ShoeFirm">
+                  <input type="text" class="form-control" id="ShoeFirm" name = "ShoeFirm" placeholder="ShoeFirm">
                   <label for="floatingInput">ShoeFirm</label>
                    <div class="invalid-feedback d-none" id="error_ShoeFirm">Wrong ShoeFirm</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="ShoeModell" placeholder="ShoeModell">
+                  <input type="text" class="form-control" id="ShoeModell" name="ShoeModell" placeholder="ShoeModell">
                   <label for="floatingInput">ShoeModell</label>
                    <div class="invalid-feedback d-none" id="error_ShoeModell">Wrong ShoeModell</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="number" class="form-control" id="ShoeSize" placeholder="ShoeSize(european)">
+                  <input type="number" min="20" max="60" step="0.5" class="form-control" name="ShoeSize" id="ShoeSize" placeholder="ShoeSize(european)">
                   <label for="floatingInput">ShoeSize(european)</label>
                    <div class="invalid-feedback d-none" id="error_ShoeSize">Wrong ShoeSize</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="number" step = "0.01" class="form-control" id="ShoePrice" placeholder="ShoePrice(dollars)">
+                  <input type="number" step = "0.01" min="0.01" max="100000" class="form-control" name="ShoePrice" id="ShoePrice" placeholder="ShoePrice(dollars)">
                   <label for="floatingInput">ShoePrice(dollars)</label>
                    <div class="invalid-feedback d-none" id="error_ShoePrice">Wrong ShoePrice</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="number" class="form-control" id="ShoeCount" placeholder="ShoeCount(in pairs)">
+                  <input type="number" min="1" max="10000" step="1" class="form-control" name="ShoeCount" id="ShoeCount" placeholder="ShoeCount(in pairs)">
                   <label for="floatingInput">ShoeCount(in pairs)</label>
                    <div class="invalid-feedback d-none" id="error_ShoeCount">Wrong ShoeCount</div>
             </div>
+            <div class="form-group">
+                  <input class="form-control" type="file" name= "ShoeFile" id="ShoeFile">
+                  <div class="invalid-feedback d-none" id="error_ShoeFile" accept="image/png, image/jpeg, image/jpg">Wrong ShoeFile</div>
+            </div>
              <div style= "display: flex; flex-direction: column; justify-content: center">
                 <button id = "shoe_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">add</button>
-            </div>
+            </div></form>
             `;
-        const shoeSubmit = document.getElementById("shoe_submit");
-        shoeSubmit.addEventListener('click', e => {
+        const shoeSubmit = document.getElementById("shoeForm");
+        shoeSubmit.addEventListener('submit', e => {
             e.preventDefault();
             shoeModule.sendShoe();
         });
@@ -142,8 +146,18 @@ showRegisterForm(){
             <div style= "display: flex; flex-direction: column; justify-content: center">
                 <button id = "purchase_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Buy</button>
             </div>
+        <img id="imgShoe" src="" style="width: 300px;height: max-content;position:absolute;right:75%;top:50%;transform:translateX(-50%) translateY(-50%)">
             `
         const purchaseSubmit = document.getElementById("purchase_submit");
+        const selectShoe = document.getElementById("selectShoe");
+        selectShoe.addEventListener('change', e => {
+            e.preventDefault();
+            if(document.getElementById('selectShoe').value !== ''){
+                purchaseModule.fillImg();
+            }else{
+                purchaseModule.emptyImg();
+            }
+        })
         purchaseSubmit.addEventListener('click', e => {
             e.preventDefault();
             purchaseModule.buying();

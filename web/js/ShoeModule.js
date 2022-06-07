@@ -1,23 +1,10 @@
 class ShoeModule {
     sendShoe(){
-        const ShoeFirm = document.getElementById('ShoeFirm').value;
-        const ShoeModell = document.getElementById('ShoeModell').value;
-        const ShoePrice = document.getElementById('ShoePrice').value;
-        const ShoeCount = document.getElementById('ShoeCount').value;
-        const ShoeSize = document.getElementById('ShoeSize').value;
-        const shoe = {
-            'ShoeFirm': ShoeFirm,
-            'ShoeModell': ShoeModell,
-            'ShoePrice': ShoePrice,
-            'ShoeCount': ShoeCount,
-            'ShoeSize': ShoeSize
-        }
+        const formData = new FormData(document.getElementById('shoeForm'));
         const promise = fetch('sendShoe', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset:utf8'
-            },
-            body: JSON.stringify(shoe)
+            credentials: 'include',
+            body: formData
         });
         promise.then(response => response.json())
                 .then(response => {
@@ -55,6 +42,10 @@ class ShoeModule {
                         else if(!response.shoeCount){
                             document.getElementById('error_ShoeCount').classList.remove('d-none');
                             document.getElementById('ShoeCount').classList.add('is-invalid');
+                        }
+                        else if(!response.shoeFile){
+                            document.getElementById('error_ShoeFile').classList.remove('d-none');
+                            document.getElementById('ShoeFile').classList.add('is-invalid');
                         }
                     }
         });

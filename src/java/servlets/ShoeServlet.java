@@ -5,27 +5,31 @@
  */
 package servlets;
 
-import entities.Client;
 import entities.Product;
 import facades.ProductFacade;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import jsontools.ClientJsonBuilder;
+import javax.servlet.http.Part;
 import jsontools.ShoeJsonBuilder;
-import tools.PasswordProtected;
 
 /**
  *
@@ -37,7 +41,10 @@ import tools.PasswordProtected;
     "/editShoe",
     "/fillInputsShoes",
 })
+@MultipartConfig
 public class ShoeServlet extends HttpServlet {
+    private final String uploadDir = this.getClass().getResource("").toString().replace("/", "\\").replace("file:/", ""); 
+    private final String uploadDir2 = "\\WEB-INF\\classes\\servlets\\images";
     @EJB ProductFacade productFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -57,21 +64,21 @@ public class ShoeServlet extends HttpServlet {
         BigDecimal shoePrice = null;
         int shoeCount = 0;
         BigDecimal shoeSize = null;
+        String shoeFileName = "";
         request.setCharacterEncoding("UTF-8");
         int shoePriceScale = 3;
         JsonObjectBuilder job = Json.createObjectBuilder();
         switch(path){
             case "/sendShoe":
                 try{
-                    JsonReader jr = Json.createReader(request.getReader());
-                    JsonObject jo = jr.readObject();
-                    shoeFirm = jo.getString("ShoeFirm", "");
-                    shoeModell = jo.getString("ShoeModell", "");
-                    shoeSize = new BigDecimal(jo.getString("ShoeSize", ""));
-                    shoePrice = new BigDecimal(jo.getString("ShoePrice", ""));
-                    shoePriceScale = new BigDecimal(jo.getString("ShoePrice", "")).scale();
-                    shoeCount = Integer.parseInt(jo.getString("ShoeCount", ""));
-                    if(shoePrice.compareTo(new BigDecimal(0.01)) >= 0 && shoePrice.compareTo(new BigDecimal(10000)) <= 0 && shoeCount >= 1 && shoeCount <= 10000 && shoeSize.compareTo(new BigDecimal(20)) >= 0 && shoeSize.compareTo(new BigDecimal(60)) <= 0 && shoePriceScale <= 2) {
+                    shoeFirm = request.getParameter("ShoeFirm");
+                    shoeModell = request.getParameter("ShoeModell");
+                    shoeSize = new BigDecimal(request.getParameter("ShoeSize"));
+                    shoePrice = new BigDecimal(request.getParameter("ShoePrice"));
+                    shoePriceScale = new BigDecimal(request.getParameter("ShoePrice")).scale();
+                    shoeCount = Integer.parseInt(request.getParameter("ShoeCount"));
+                    shoeFileName = getFileName(request.getPart("ShoeFile"));
+                    if(!"".equals(shoeFirm) && !"".equals(shoeModell) && !"".equals(shoeFileName) && shoePrice.compareTo(new BigDecimal(0.01)) >= 0 && shoePrice.compareTo(new BigDecimal(10000)) <= 0 && shoeCount >= 1 && shoeCount <= 10000 && shoeSize.compareTo(new BigDecimal(20)) >= 0 && shoeSize.compareTo(new BigDecimal(60)) <= 0 && shoePriceScale <= 2) {
                         Product product = new Product();
                         product.setBywho(shoeFirm);
                         product.setModell(shoeModell);
@@ -79,6 +86,12 @@ public class ShoeServlet extends HttpServlet {
                         product.setPiece(shoeCount);
                         product.setMaxPiece(shoeCount);
                         product.setSize(shoeSize);
+                        try {
+                            product.setPathToFile(getPathToCover(request.getPart("ShoeFile")));
+                        } catch (Exception e) {
+                            shoeFileName = request.getParameter("ShoeFile");
+                            product.setPathToFile(getPathToCover(shoeFileName));
+                        }
                         productFacade.create(product);
                         job.add("done", true);
                     }else{
@@ -110,6 +123,11 @@ public class ShoeServlet extends HttpServlet {
                         job.add("shoeCount", false);
                     }else{
                         job.add("shoeCount", true);
+                    }
+                    if("".equals(shoeFileName)){
+                        job.add("shoeFile", false);
+                    }else{
+                        job.add("shoeFile", true);
                     }
                 }
                 try (PrintWriter out = response.getWriter()) {
@@ -198,7 +216,51 @@ public class ShoeServlet extends HttpServlet {
                 break;
         }
     }
-
+        private String getPathToCover(Part part) throws IOException {
+        String pathToCover = uploadDir + File.separator + getFileName(part);
+        String pathToCover2 = uploadDir2 + File.separator + getFileName(part);
+        File file = new File(pathToCover);
+        file.mkdirs();
+        try(InputStream fileContent = part.getInputStream()){
+            Files.copy(fileContent, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
+        return pathToCover2;
+    }
+    private String getPathToCover(String coverFileName){
+        File uploadDirFolder = new File(uploadDir);
+        File[] listOfFiles = uploadDirFolder.listFiles();
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if(listOfFiles[i].isFile()){
+                if(coverFileName.equals(listOfFiles[i].getName())){
+                    return listOfFiles[i].getPath();
+                }
+            }
+        }
+        return "";
+    }
+    private String[] getCoversFileName(){
+        Set<String> setPathToCover = new HashSet<>();
+        File uploadDirFolder = new File(uploadDir);
+        File[] listOfFiles = uploadDirFolder.listFiles();
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if(listOfFiles[i].isFile()){
+                setPathToCover.add(listOfFiles[i].getName());
+            }
+        }
+        return setPathToCover.toArray(new String[setPathToCover.size()]);
+    }
+    private String getFileName(Part part){
+        final String partHeader = part.getHeader("content-disposition");
+        for (String content : part.getHeader("content-disposition").split(";")){
+            if(content.trim().startsWith("filename")){
+                return content
+                        .substring(content.indexOf('=')+1)
+                        .trim()
+                        .replace("\"",""); 
+            }
+        }
+        return null;
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
