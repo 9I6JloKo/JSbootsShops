@@ -31,7 +31,7 @@ class ChangeShoeModule {
         document.getElementById('ShoeCount').value = "";
     }
     edit(){
-        const formData = new FormData(document.getElementById('shoeForm'));
+        const formData = new FormData(document.getElementById('shoeFormReal'));
         const promise = fetch('editShoe', {
             method: 'POST',
             credentials: 'include',
