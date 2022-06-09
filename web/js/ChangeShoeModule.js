@@ -31,28 +31,12 @@ class ChangeShoeModule {
         document.getElementById('ShoeCount').value = "";
     }
     edit(){
-        const shoeFirm_edit = document.getElementById('shoeFirm').value;
-        const shoeModell_edit = document.getElementById('shoeModell').value;
-        const shoeSize_edit = document.getElementById('ShoeSize').value;
-        const shoePrice_edit = document.getElementById('ShoePrice').value;
-        const shoeCount_edit = document.getElementById('ShoeCount').value;
-        const shoeId_edit = document.getElementById('selectShoe').value;
-        const shoeEdit = {
-            'shoeFirm_edit': shoeFirm_edit,
-            'shoeModell_edit': shoeModell_edit,
-            'shoeSize_edit': shoeSize_edit,
-            'shoePrice_edit': shoePrice_edit,
-            'shoeCount_edit': shoeCount_edit,
-            'shoeId_edit': shoeId_edit,
-        }
-        let promise = fetch("editShoe", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json;charset:utf8'
-            },
-            body:
-                JSON.stringify(shoeEdit)
-        })
+        const formData = new FormData(document.getElementById('shoeForm'));
+        const promise = fetch('editShoe', {
+            method: 'POST',
+            credentials: 'include',
+            body: formData
+        });
         promise.then(response => response.json())
                 .then(response => {
                     const invalidLabel = document.getElementsByClassName('invalid-feedback');

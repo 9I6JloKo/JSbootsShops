@@ -178,16 +178,15 @@ public class ShoeServlet extends HttpServlet {
                 }
             break;
             case "/editShoe":
-                jr = Json.createReader(request.getReader());
-                jo = jr.readObject();
                 try{
-                    long shoeIdEdit = Long.parseLong(jo.getString("shoeId_edit", ""));
-                    shoeFirm = jo.getString("shoeFirm_edit", "");
-                    shoeModell = jo.getString("shoeModell_edit", "");
-                    shoeSize = new BigDecimal(jo.getString("shoeSize_edit", ""));
-                    shoePrice = new BigDecimal(jo.getString("shoePrice_edit", ""));
-                    shoePriceScale = new BigDecimal(jo.getString("shoePrice_edit", "")).scale();
-                    shoeCount = Integer.parseInt(jo.getString("shoeCount_edit", ""));
+                    long shoeIdEdit = Long.parseLong(request.getParameter("selectShoe"));
+                    shoeFirm = request.getParameter("shoeFirm");
+                    shoeModell = request.getParameter("shoeModell");
+                    shoeSize = new BigDecimal(request.getParameter("ShoeSize"));
+                    shoePrice = new BigDecimal(request.getParameter("ShoePrice"));
+                    shoePriceScale = new BigDecimal(request.getParameter("ShoePrice")).scale();
+                    shoeCount = Integer.parseInt(request.getParameter("ShoeCount"));
+                    Part shoeFile = request.getPart("ShoeFile");
                     Product shoe = productFacade.find(shoeIdEdit);
                     if(shoePrice.compareTo(new BigDecimal(0.01)) >= 0 && shoePrice.compareTo(new BigDecimal(10000)) <= 0 && shoeCount >= 1 && shoeCount <= 10000 && shoeSize.compareTo(new BigDecimal(20)) >= 0 && shoeSize.compareTo(new BigDecimal(60)) <= 0 && shoePriceScale <= 2){
                         shoe.setBywho(shoeFirm);
@@ -196,6 +195,14 @@ public class ShoeServlet extends HttpServlet {
                         shoe.setPiece(shoeCount);
                         shoe.setMaxPiece(shoeCount);
                         shoe.setSize(shoeSize);
+                        if(!"".equals(shoeFile.getName())){
+                            try {
+                                shoe.setPathToFile(getPathToCover(request.getPart("ShoeFile")));
+                            } catch (Exception e) {
+                                shoeFileName = request.getParameter("ShoeFile");
+                                shoe.setPathToFile(getPathToCover(shoeFileName));
+                            }
+                        }
                         productFacade.edit(shoe);
                         job.add("done", true);
                     }

@@ -22,6 +22,7 @@ class ShoeOptionsModule {
                                 option.text = response.options[i].productFirm + ' ' + response.options[i].productModell + '; Price: ' + response.options[i].productPrice + '$; Size: ' + response.options[i].productSize + '; Count: ' + response.options[i].productPiece;
                                 option.value = response.options[i].id;
                                 shoeSelect.add(option);
+                            }else{
                             }
                         }
                     }else{

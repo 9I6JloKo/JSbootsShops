@@ -3,24 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/src/java/servlets/ClientServlet.java</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/web/js/ViewModule.js</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/web/js/ChangeClientModule.js</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/src/java/entities/Client.java</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/web/WEB-INF/glassfish-resources.xml</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/src/java/servlets/EarningServlet.java</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/web/js/ShoeModule.js</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/src/java/entities/History.java</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/web/index.html</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/web/js/LoginModule.js</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/src/java/jsontools/ShoeJsonBuilder.java</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/web/js/PurchaseModule.js</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/src/java/jsontools/ClientJsonBuilder.java</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/src/java/servlets/LoginServlet.java</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/web/js/ClientOptionsModule.js</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/src/java/servlets/ShoeServlet.java</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/web/js/Main.js</file>
-            <file>file:/C:/Users/anana/OneDrive/OneDrive%20-%20Ida-Virumaa%20Kutsehariduskeskus/Документы/NetBeansProjects/JSbootsShops/web/js/ChangeShoeModule.js</file>
+            <file>file:/C:/Users/anana/Documents/NetBeansProjects/JSbootsShops/src/java/servlets/LoginServlet.java</file>
+            <file>file:/C:/Users/anana/Documents/NetBeansProjects/JSbootsShops/src/java/servlets/ShoeServlet.java</file>
         </group>
     </open-files>
 </project-private>

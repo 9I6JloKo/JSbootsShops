@@ -41,7 +41,6 @@ class ViewModule {
         });
     }
 showRegisterForm(){
-    
         document.getElementById('content').innerHTML = `
             <form><legend style="margin-bottom: 20px">Registration in the system</legend>
             <div class="form-floating mb-3">
@@ -242,41 +241,48 @@ showRegisterForm(){
             document.getElementById('content').classList.remove('d-none');
         }
         document.getElementById('content').innerHTML = `
+        <form id="shoeFormReal">
             <div class="form-group">
                 <label for="exampleSelect1" class="form-label mt-4">Shoes</label>
-                <select class="form-select" id="selectShoe">
+                <select class="form-select" name="selectShoe" id="selectShoe">
                 </select>
             </div>
             <legend style="margin-bottom: 20px; margin-top: 20px">Editing</legend>
             <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="shoeFirm" placeholder="shoeFirm">
+                  <input type="text" class="form-control" name ="shoeFirm" id="shoeFirm" placeholder="shoeFirm">
                   <label for="floatingInput">shoeFirm</label>
                    <div class="invalid-feedback d-none" id="error_shoeFirm">Wrong shoeFirm</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="shoeModell" placeholder="shoeModell">
+                  <input type="text" class="form-control" id="shoeModell" name="shoeModell" placeholder="shoeModell">
                   <label for="floatingInput">shoeModell</label>
                    <div class="invalid-feedback d-none" id="error_shoeModell">Wrong shoeModell</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="number" class="form-control" id="ShoeSize" placeholder="ShoeSize(european)">
+                  <input type="number" class="form-control" id="ShoeSize" name="ShoeSize"  placeholder="ShoeSize(european)">
                   <label for="floatingInput">ShoeSize(european)</label>
                    <div class="invalid-feedback d-none" id="error_ShoeSize">Wrong ShoeSize</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="number" step = "0.01" class="form-control" id="ShoePrice" placeholder="ShoePrice(dollars)">
+                  <input type="number" step = "0.01" class="form-control" name = "ShoePrice" id="ShoePrice" placeholder="ShoePrice(dollars)">
                   <label for="floatingInput">ShoePrice(dollars)</label>
                    <div class="invalid-feedback d-none" id="error_ShoePrice">Wrong ShoePrice</div>
             </div>
             <div class="form-floating mb-3">
-                  <input type="number" class="form-control" id="ShoeCount" placeholder="ShoeCount(in pairs)">
+                  <input type="number" class="form-control" id="ShoeCount" name = "ShoeCount" placeholder="ShoeCount(in pairs)">
                   <label for="floatingInput">ShoeCount(in pairs)</label>
                    <div class="invalid-feedback d-none" id="error_ShoeCount">Wrong ShoeCount</div>
             </div>
-            <div style= "display: flex; flex-direction: column; justify-content: center">
-                <button id = "change_submit_Shoe" class="btn btn-primary" style="margin-top: 30px; width:100%">Change</button>
+            <div class="form-group">
+                  <input class="form-control" type="file" name= "ShoeFile" name="ShoeFile" accept="image/png, image/jpeg, image/jpg" id="ShoeFile">
+                  <div class="invalid-feedback d-none" id="error_ShoeFile" >Wrong ShoeFile</div>
             </div>
+            <div style= "display: flex; flex-direction: column; justify-content: center">
+                <button id = "change_submit_Shoe" type="submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Change</button>
+            </div>
+        </form>
             `;
+        shoeOptionsModule.getShoeOptions();
         const selectShoe = document.getElementById('selectShoe');
         selectShoe.addEventListener('change', e => {
             e.preventDefault();
@@ -286,8 +292,8 @@ showRegisterForm(){
                 changeShoeModule.emptyInputs();
             }
         });
-        const changeSubmitShoe = document.getElementById("change_submit_Shoe");
-        changeSubmitShoe.addEventListener('click', e => {
+        const shoeEditSubmit = document.getElementById("shoeFormReal");
+        shoeEditSubmit.addEventListener('submit', e => {
             e.preventDefault();
             if(document.getElementById('selectShoe').value !== ''){
                 changeShoeModule.edit();
@@ -295,7 +301,6 @@ showRegisterForm(){
                 document.getElementById('info').innerHTML = "Choose shoe you want, please";
             }
         });
-        shoeOptionsModule.getShoeOptions();
     }
     showEarning(){
         if(document.getElementById('content').classList.contains('d-none')){

@@ -27,13 +27,13 @@ public class ShoeJsonBuilder {
     }
     public JsonObject getShoesJsonObject(Product product){
         JsonObjectBuilder job = Json.createObjectBuilder();
-        ShoeJsonBuilder ajb = new ShoeJsonBuilder();
         job.add("id", product.getId());
         job.add("productModell", product.getModell());
         job.add("productFirm", product.getBywho());
         job.add("productPrice", product.getPrice());
         job.add("productPiece", product.getPiece());
         job.add("productSize", product.getSize());
+        job.add("productPath", product.getPathToFile());
         return job.build();
     }
 }
