@@ -145,7 +145,7 @@ showRegisterForm(){
             <div style= "display: flex; flex-direction: column; justify-content: center">
                 <button id = "purchase_submit" class="btn btn-primary" style="margin-top: 30px; width:100%">Buy</button>
             </div>
-            <img id="imgShoe" src="" style="width: 300px;height: max-content;position:absolute;right:-100%;top:50%;transform:translateX(-50%) translateY(-50%); border-radius: 10px; outline: 2px solid black">
+            <img id="imgShoe" class="d-none" src="" style="width: 400px;height: max-content;position:absolute;right:-120%;top:50%;transform:translateX(-50%) translateY(-50%); border-radius: 10px; outline: 2px solid lightgrey; box-shadow: 0px 5px 30px 5px grey">
             `
         const purchaseSubmit = document.getElementById("purchase_submit");
         const selectShoe = document.getElementById("selectShoe");

@@ -16,6 +16,7 @@ class PurchaseModule {
                 .then(response => {
                     document.getElementById('info').innerHTML = response.info;
                     shoeOptionsModule.getShoeOptions();
+                    document.getElementById('imgShoe').classList.add('d-none');
         });
     }
     fillImg(){
@@ -39,19 +40,27 @@ class PurchaseModule {
         promise.then(response => response.json())
                 .then(response => {
                     if(response.status){
-                        console.log(response.pathToFile)
                         try{
                             document.getElementById('imgShoe').src = response.pathToFile;
+                            if(document.getElementById('imgShoe').classList.contains('d-none')){
+                                document.getElementById('imgShoe').classList.remove('d-none')
+                            }
                         }catch(e){
                             document.getElementById('info').innerHTML = "error";
                         }
                     }else{
+                        if(!document.getElementById('imgShoe').classList.contains('d-none')){
+                                document.getElementById('imgShoe').classList.add('d-none')
+                        }
                         document.getElementById('info').innerHTML = "picture is not available";
                     }
         })
     }
     emptyImg(){
         document.getElementById('imgShoe').src = "";
+        if(!document.getElementById('imgShoe').classList.contains('d-none')){
+            document.getElementById('imgShoe').classList.add('d-none')
+        }
     }
 }
 const purchaseModule = new PurchaseModule();
